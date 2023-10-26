@@ -15,6 +15,14 @@ public class Product extends Menu {
         this.count = 0;
     }
 
+    public String getProductName() {
+        return this.name;
+    }
+
+    public String getProductInfo() {
+        return this.info;
+    }
+
     // getter
     public double getPrice() {
         return price;
@@ -24,7 +32,7 @@ public class Product extends Menu {
         return count;
     }
 
-    public void increaseCount(){
+    public void increaseCount() {
         count++;
     }
 }
