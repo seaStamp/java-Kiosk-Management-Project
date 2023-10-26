@@ -13,5 +13,6 @@ public class MainMenu {
     public final static Menu DRINKS = new Menu("Drinks", "매장에서 직접 만드는 음료");
     public final static Menu CONCRETES = new Menu("Concretes", "쫀득하고 진한맛의 커스터드");
 
-    ArrayList<Menu> mainMenu = new ArrayList<>(Arrays.asList(BURGERS, CUSTARDS, DRINKS, CONCRETES));
+   public ArrayList<Menu> mainMenu = new ArrayList<>(Arrays.asList(BURGERS, CUSTARDS, DRINKS, CONCRETES));
+
 }
