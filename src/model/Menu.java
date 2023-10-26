@@ -22,6 +22,6 @@ public class Menu {
     }
 
     public String getInfo() {
-        return this.name;
+        return this.info;
     }
 }
