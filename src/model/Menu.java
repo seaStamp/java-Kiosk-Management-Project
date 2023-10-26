@@ -6,7 +6,6 @@ import java.util.List;
 public class Menu {
     protected String name;
     protected String info;
-    private ArrayList<Product> products; // 각 메뉴에 해당하는 상품들을 담는 리스트
 
     // 기본 생성자
     public Menu() {
@@ -25,13 +24,4 @@ public class Menu {
     public String getInfo() {
         return this.name;
     }
-
-    public void addProduct(Product p){
-        products.add(p);
-    }
-
-    public void removeProduct(Product p){
-        products.remove(p);
-    }
-
 }
