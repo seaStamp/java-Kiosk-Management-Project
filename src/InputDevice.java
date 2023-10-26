@@ -1,12 +1,21 @@
+import exception.OutOfRangeException;
+
 import java.util.Scanner;
 
 public class InputDevice {
     private static Scanner scanner;
+    private static Parser parser;
 
-    // 정수형 입력을 받는 메서드 (n은 1~n까지의 범위)
-    public int receiveInput(int n) {
-        Scanner scanner = new Scanner(System.in);
-        int answer = 1;
+    // 정수형 입력을 받는 메서드 (n은 1~n까지의 범위), -1을 반환하면 입력에 실패한것
+    public static int receiveInput(int n) {
+        scanner = new Scanner(System.in);
+        parser = new Parser();
+        int answer = -1;
+        try {
+            parser.parseInt(scanner.nextLine(), n);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
         return answer;
     }
 
@@ -18,13 +27,25 @@ public class InputDevice {
     }
 
     // 오버로딩 (글자수 제한이 있는 것과 없는것)
-    public String receiveInputString() {
+    public static String receiveInputString() {
+        scanner = new Scanner(System.in);
         String answer = null;
+        answer = scanner.nextLine();
         return answer;
     }
 
-    public String receiveInputString(int n){
-        String answer = null;
+    // 사용시 try-catch문으로 잡아줘야함.
+    // 아무 값도 입력하지 않았을 경우 "(없음)"이 반환
+    // 입력에 실패하면 null값 반환
+    public static String receiveInputString(int endInclusive) throws Exception {
+        scanner = new Scanner(System.in);
+        String answer = scanner.nextLine();
+        if (answer.length() > endInclusive) {
+            throw new OutOfRangeException(endInclusive);
+        }
+        if (answer.isEmpty()) {
+            answer = "(없음)";
+        }
         return answer;
     }
 }
