@@ -12,7 +12,7 @@ public class Product extends Menu {
         this.name = productName;
         this.info = productInfo;
         this.price = price;
-        this.count = 0;
+        this.count = 1;
     }
 
     public String getProductName() {
