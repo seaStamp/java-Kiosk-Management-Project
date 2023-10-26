@@ -31,10 +31,9 @@ public class ShakeShackAllMenu {
     private final static Product BETTER_2GETHER = new Product("Better 2Gether", "바닐라와 초콜릿 커스터드를 반씩 넣고 초콜릿 트러플 쿠키 도우와 쇼트브레드를 믹스한, 함께라서 더욱 특별한 콘크리트", 6.2);
     private final static Product SHACK_FFOGATO = new Product("Shack-ffogato", "바닐라 커스터드에 커피 카라멜 소스, 초콜릿 토피, 초콜릿 청크, 코코아 파우더가 어우러진 쉐이크쉑만의 아포가토 콘크리트", 6.2);
 
-    ArrayList<Product> burger = new ArrayList<>(Arrays.asList(SHACKBURGER, SMOKESHACK, SHROOM_BURGER, HAMBURGER));
-    ArrayList<Product> custard = new ArrayList<>(Arrays.asList(ANTHRACITE_COFFEE_SHAKE, CLASSIC_HAND_SPUN_SHAKE, FLOATS, CUP_CONES));
-    ArrayList<Product> drink = new ArrayList<>(Arrays.asList(RASPBERRY_LEMONADE, LEMONADE, FRESH_BREWED_ICED_TEA, FIFTY_FIFTY));
-    ArrayList<Product> concretes = new ArrayList<>(Arrays.asList(SHACK_ATTACK, HONEY_BUTTER_CRUNCH, BETTER_2GETHER, SHACK_FFOGATO));
-
+    public ArrayList<Product> burger = new ArrayList<>(Arrays.asList(SHACKBURGER, SMOKESHACK, SHROOM_BURGER, HAMBURGER));
+    public ArrayList<Product> custard = new ArrayList<>(Arrays.asList(ANTHRACITE_COFFEE_SHAKE, CLASSIC_HAND_SPUN_SHAKE, FLOATS, CUP_CONES));
+    public ArrayList<Product> drink = new ArrayList<>(Arrays.asList(RASPBERRY_LEMONADE, LEMONADE, FRESH_BREWED_ICED_TEA, FIFTY_FIFTY));
+    public ArrayList<Product> concretes = new ArrayList<>(Arrays.asList(SHACK_ATTACK, HONEY_BUTTER_CRUNCH, BETTER_2GETHER, SHACK_FFOGATO));
 
 }
