@@ -26,4 +26,12 @@ public class Menu {
         return this.name;
     }
 
+    public void addProduct(Product p){
+        products.add(p);
+    }
+
+    public void removeProduct(Product p){
+        products.remove(p);
+    }
+
 }
