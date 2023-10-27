@@ -29,7 +29,7 @@ public class ManagerScreen{
     public void waitingOrderList(int x){ //1. 대기 주문 목록 화면
         System.out.println("0. 돌아가기\n");
         System.out.println("[ 대기주문 목록 ]");
-        for(int x = 0;x<order.orderList.size();x++){
+        for(int y = 0;y<order.orderList.size();y++){
             //System.out.println((x+1)+". "+order.waitingNumber.get(x)+"|"+"주문 총 가격"+"|"+"주문 일시");
         }
     }
@@ -89,6 +89,7 @@ public class ManagerScreen{
 
     public void productDelete(){//삭제할 상품목록
 
+        //qqq
     }
 
 
