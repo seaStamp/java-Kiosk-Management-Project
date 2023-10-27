@@ -33,6 +33,8 @@ public class Store {
         }
         waitingList.remove(waiting);
         completedList.add(waiting);
+
+        //Order order1 = waitingList.get(order.orderList.get(index));
     }
 
     // 입력 받은 메뉴가 이미 존재하는건지 확인하는 메서드
@@ -48,13 +50,17 @@ public class Store {
         return exist;
     }
 
-    // 상품을 생성하는 메서드
-    public void createProduct(String menuName, String menuInfo, String productName, String productInfo, double price) {
-        if(menuInfo.isEmpty()) {
-            menuList.add(new Menu(menuName, menuInfo));
-            menus.put(menuName, new ArrayList<>());
-        }
+    // 메뉴를 생성하는 메서드
+    public void createMenu(String menuName, String menuInfo) {
+        Menu newMenu = new Menu(menuName, menuInfo);
+        menuList.add(newMenu);
 
+        List<Product> menuItems = new ArrayList<>();
+        menus.put(menuName, menuItems);
+    }
+
+    // 상품을 생성하는 메서드
+    public void createProduct(String menuName, String productName, String productInfo, double price) {
         List<Product> menuItems = menus.get(menuName);
         menuItems.add(new Product(productName, productInfo, price));
     }
