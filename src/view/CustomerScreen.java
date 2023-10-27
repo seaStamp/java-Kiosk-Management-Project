@@ -1,6 +1,7 @@
 package view;
 
 import model.Menu;
+import model.Order;
 import model.Product;
 import org.w3c.dom.ls.LSOutput;
 import product.MainMenu;
@@ -18,15 +19,10 @@ public class CustomerScreen {
     ShakeShackAllMenu shakeShackAllMenu = new ShakeShackAllMenu();
 
     // 선택한 메뉴 담는 곳
-    private final List<Product> orderMenu = new ArrayList<>();
+    List<Product> orderMenu = new ArrayList<>();
     // 선택한 메뉴 가격 담는 곳 (주문할 때 계산용)
     List<Product> orderMenuPrice = new ArrayList<>();
-    // Scanner 사용
-    Scanner sc = new Scanner(System.in);
 
-    //    public void startScreen(){
-    //        System.out.println("7. 시작 화면으로");
-    //    }
 
     // 구분 선 표시
     public void displayLine(){
@@ -50,8 +46,10 @@ public class CustomerScreen {
         }
         System.out.println();
         System.out.println(" [ ORDER MENU ] ");
-        System.out.println("5. Order    | 장바구니를 확인 후 주문합니다.");
-        System.out.println("6. Cancel   | 진행중인 주문을 취소합니다.");
+        System.out.println("5. Order            | 장바구니를 확인 후 주문합니다.");
+        System.out.println("6. Cancel           | 진행중인 주문을 취소합니다.");
+        System.out.println("7. Status of Order  | 주문 현황을 확인합니다.");
+        System.out.println("8. 시작 화면으로");
         displayLine();
         System.out.println();
         // Order & Cancel 불러오기
@@ -59,25 +57,16 @@ public class CustomerScreen {
 
     // 주문 현황
     public void orderStatus (){
-        System.out.println("주문 현황입니다.");
-        System.out.println();
+        System.out.println("주문 현황입니다." + "\n");
+
         System.out.println("[최근 완료된 주문]");
         // 예시
-        System.out.println("대기번호 | " + "대기번호 | " + "대기번호" );
-        System.out.println();
+        System.out.println("대기번호 | " + "대기번호 | " + "대기번호" + "\n");
         System.out.println("[대기중인 주문]");
         // 예시
-        System.out.println("대기번호 | " + "대기번호 | " + "대기번호 | " + "대기번호..." );
-        System.out.println();
-        System.out.println("1. 돌아가기");
-//        int num;
-//        num = sc.nextInt();
-//        if(num == 1){
-//            displayProductMenu();
-//        } else {
-//            System.out.println("다시 입력해주세요.");
-//        }
-        System.out.println();
+        System.out.println("대기번호 | " + "대기번호 | " + "대기번호 | " + "대기번호..." + "\n");
+
+        System.out.println("1. 돌아가기" + "\n");
     }
 
     // 상품 메뉴 화면
@@ -86,31 +75,21 @@ public class CustomerScreen {
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요.");
         System.out.println();
         for (int i = 0; i < shakeShackAllMenu.burger.size(); i++) {
-            System.out.println(i + 1 + ". " + shakeShackAllMenu.burger.get(i).getName() + " | " + shakeShackAllMenu.burger.get(i).getPrice() + " | " +shakeShackAllMenu.burger.get(i).getInfo());
+            System.out.println(i + 1 + ". " + shakeShackAllMenu.burger.get(i).getProductName() + " | " + shakeShackAllMenu.burger.get(i).getPrice() + " | " + shakeShackAllMenu.burger.get(i).getInfo());
         }
+
+        // 선택한 메뉴 담기
         displayLine();
         System.out.println();
 
     }
     // 구매 화면
-    public void purchaseScreen(){
+    public void purchaseScreen(Order order){
         // 장바구니에 담긴 메뉴 출력
+
 //        System.out.println(orderMenu.get(0));
         System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
         System.out.println("1. 확인        2. 취소");
-        int num = 0;
-        num = sc.nextInt();
-        switch(num) {
-            // 1번 클릭 시 : 장바구니에 메뉴와 가격 추가
-            case 1 :
-//                orderMenu.add();
-//                orderMenuPrice.add();
-                System.out.println("Hamburger 가 장바구니에 추가되었습니다.");
-                System.out.println();
-                // 2번 클릭 시 : 취소 후 메뉴판으로 이동
-            case 2 :
-                displayMainMenu();
-        }
         displayLine();
         System.out.println();
     }
@@ -128,26 +107,6 @@ public class CustomerScreen {
 
         System.out.println();
         System.out.println("1. 주문       2. 메뉴판");
-        int num = 0;
-        num = sc.nextInt();
-
-        // 1번 클릭 시 : 주문 시 요청사항 입력칸 화면으로 이동
-        if(num == 1){
-            requestedTerm();
-        // 2번 클릭 시 : 메뉴판 화면으로 이동
-        } else if (num == 2) {
-            displayMainMenu();
-        } else{
-            System.out.println("다시 입력해주세요.");
-        }
-//        switch(num) {
-//            // 1번 클릭 시 : 주문 시 요청사항 입력칸 화면으로 이동
-//            case 1 :
-//                requestedTerm();
-//            // 2번 클릭 시 : 메뉴판 화면으로 이동
-//            case 2 :
-//                displayMainMenu();
-//        }
         displayLine();
         System.out.println();
         }
@@ -161,11 +120,11 @@ public class CustomerScreen {
 
     // 주문완료 화면
     public void orderSuccessScreen() {
-        System.out.println("주문이 완료되었습니다!");
-        System.out.println();
+        System.out.println("주문이 완료되었습니다!" + "\n");
+
         System.out.println("대기번호는 [ " + "1" + " ]" + "번 입니다." );
-        System.out.println("3초후 메뉴판으로 돌아갑니다.");
-        System.out.println();
+        System.out.println("3초후 메뉴판으로 돌아갑니다." + "\n");
+
         // 3초
         try {
             Thread.sleep(1000);
@@ -180,22 +139,8 @@ public class CustomerScreen {
     // 주문취소 화면
     public void orderCancelScreen() {
         System.out.println("진행하던 주문을 취소하시겠습니까?");
-        System.out.println("1. 확인        2. 취소");
-        int num = 0;
-        num = sc.nextInt();
-        switch(num) {
-            // 확인 시 화면 출력
-            case 1 :
-                System.out.println("주문이 취소되었습니다.");
-                displayMainMenu();
+        System.out.println("1. 확인        2. 취소" + "\n");
 
-            // 취소 시 화면 출력
-            case 2 :
-                System.out.println("진행하던 주문이 취소되었습니다.");
-                System.out.println();
-                displayMainMenu();
-        }
-        System.out.println();
     }
 
 }
