@@ -1,3 +1,5 @@
+package input;
+
 import exception.BadinputException;
 
 import java.util.regex.Pattern;
