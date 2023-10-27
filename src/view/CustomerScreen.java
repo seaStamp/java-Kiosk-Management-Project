@@ -37,8 +37,7 @@ public class CustomerScreen {
     // 전체 메뉴 화면 (메인 메뉴)
     public void displayMainMenu(){
         welcomeMsg();
-        System.out.println("아래 메뉴판을 보시고 메뉴를 골라 입력해주세요.");
-        System.out.println();
+        System.out.println("아래 메뉴판을 보시고 메뉴를 골라 입력해주세요." + "\n");
         System.out.println("[ SHAKESHACK MENU ]");
         // 전체 메뉴 불러오기
         for (int i = 0; i < mainMenu.mainMenu.size(); i++){
@@ -58,7 +57,6 @@ public class CustomerScreen {
     // 주문 현황
     public void orderStatus (){
         System.out.println("주문 현황입니다." + "\n");
-
         System.out.println("[최근 완료된 주문]");
         // 예시
         System.out.println("대기번호 | " + "대기번호 | " + "대기번호" + "\n");
@@ -72,8 +70,8 @@ public class CustomerScreen {
     // 상품 메뉴 화면
     public void displayProductMenu() {
         welcomeMsg();
-        System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요.");
-        System.out.println();
+        System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요." + "\n");
+
         for (int i = 0; i < shakeShackAllMenu.burger.size(); i++) {
             System.out.println(i + 1 + ". " + shakeShackAllMenu.burger.get(i).getProductName() + " | " + shakeShackAllMenu.burger.get(i).getPrice() + " | " + shakeShackAllMenu.burger.get(i).getInfo());
         }
@@ -89,7 +87,7 @@ public class CustomerScreen {
 
 //        System.out.println(orderMenu.get(0));
         System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
-        System.out.println("1. 확인        2. 취소");
+        System.out.println("1. 확인        2. 취소" + "\n");
         displayLine();
         System.out.println();
     }
@@ -102,10 +100,10 @@ public class CustomerScreen {
         System.out.println();
         // 장바구니에 담긴 메뉴 출력 (orderMenu.add() 된 것을 get()으로 가져오기
 
-        System.out.println("[ Total ]");
+        System.out.println("[ Total ]" + "\n");
         // 각 메뉴들의 가격의 합 출력 (orderMenuPrice.add() 된 것을 get()으로 가져와서 합 구하기
 
-        System.out.println();
+
         System.out.println("1. 주문       2. 메뉴판");
         displayLine();
         System.out.println();
@@ -124,7 +122,6 @@ public class CustomerScreen {
 
         System.out.println("대기번호는 [ " + "1" + " ]" + "번 입니다." );
         System.out.println("3초후 메뉴판으로 돌아갑니다." + "\n");
-
         // 3초
         try {
             Thread.sleep(1000);
@@ -140,7 +137,6 @@ public class CustomerScreen {
     public void orderCancelScreen() {
         System.out.println("진행하던 주문을 취소하시겠습니까?");
         System.out.println("1. 확인        2. 취소" + "\n");
-
     }
 
 }
