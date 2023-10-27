@@ -7,10 +7,6 @@ public class Menu {
     protected int id = 0;
     protected String name;
     protected String info;
-<<<<<<< Updated upstream
-=======
-    //private ArrayList<Product> products; // 각 메뉴에 해당하는 상품들을 담는 리스트
->>>>>>> Stashed changes
 
     // 기본 생성자
     public Menu() {
