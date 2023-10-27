@@ -1,5 +1,7 @@
 package controller;
 
+import input.InputDevice;
+import product.MainMenu;
 import view.CustomerScreen;
 
 public class CustomerKiosk extends Kiosk{
@@ -13,6 +15,8 @@ public class CustomerKiosk extends Kiosk{
     private final static int ORDER_STATUS = 7;
 
     private static CustomerScreen screen = new CustomerScreen();
+    private static InputDevice inputDevice = new InputDevice();
+    private static MainMenu mainMenu = new MainMenu();
 
     public void customerKioskStart() {
         while(true) {
@@ -47,6 +51,8 @@ public class CustomerKiosk extends Kiosk{
     }
 
     public void handleMainMenu() {
+        int input = inputDevice.receiveInput(mainMenu.mainMenu.size()+3);
+        status =
 
     }
 
