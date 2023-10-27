@@ -37,13 +37,13 @@ public class CustomerKiosk extends Kiosk{
         while(true) {
             switch (status) {
                 case HOME:
-                    break;
+                    return;
                 case MAIN_MENU:
                     screen.displayMainMenu();
                     handleMainMenu();
                     break;
                 case PRODUCT_MENU:
-                    screen.displayProductMenu(selectedMenu); // 매개변수 product로 받아야 함.
+                    screen.displayProductMenu(selectedMenu);
                     handleProductMenu(selectedMenu);
                     break;
                 case PRODUCT_ADD:
@@ -51,7 +51,7 @@ public class CustomerKiosk extends Kiosk{
                     handleCart(selectedProduct);
                     break;
                 case CART:
-                    screen.orderScreen(); // List<Order>를 매개변수로 받아야 함.
+                    screen.orderScreen(order.orderList); // List<Order>를 매개변수로 받아야 함.
                     handleProductAdd();
                     break;
                 case ORDER_CANCEL:
@@ -66,13 +66,14 @@ public class CustomerKiosk extends Kiosk{
                     screen.orderStatus();
                     handleStatus();
                     break;
-
             }
         }
     }
 
     public void handleMainMenu() {
-        int input = inputDevice.receiveInt(mainMenu.mainMenu.size()+3);
+        int nRange = mainMenu.mainMenu.size()+4;
+        int input = inputDevice.receiveInt(nRange);
+
         switch(input) {
             case 1:
                 status = PRODUCT_MENU;
@@ -157,7 +158,7 @@ public class CustomerKiosk extends Kiosk{
         }
         status = MAIN_MENU;
     }
-    
+
 
 
     // 주문현황
@@ -168,5 +169,4 @@ public class CustomerKiosk extends Kiosk{
             status = MAIN_MENU;
         }
     }
-
 }
