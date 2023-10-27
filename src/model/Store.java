@@ -15,6 +15,26 @@ public class Store {
     public Order order = new Order();
 
 
+    // 대기 주문을 추가하는 메서드
+    public void addWaitingOrder(Order myOrder) {
+        waitingList.add(myOrder);
+    }
+
+    // 주문을 완료하는 메서드
+   /* public void completeOrder(Order myOrder) {
+        waitingList.remove(myOrder);
+        completedList.add(myOrder);
+    }
+*/
+    // 주문을 완료하는 메서드
+    public void changeCompleteOrderState(Order waiting) { //주문상태 변경 (대기 -> 완료)
+        if(!waiting.getOrderState()) {
+            waiting.setOrderState(true); // waiting.setOrderState(!waiting.getOrderState());
+        }
+        waitingList.remove(waiting);
+        completedList.add(waiting);
+    }
+
     // 입력 받은 메뉴가 이미 존재하는건지 확인하는 메서드
     public boolean existOrNotMenu(String menuName) {
         boolean exist = false; // 메뉴 존재하면 true, 존재하지 않으면 false
@@ -47,13 +67,5 @@ public class Store {
             }
             break;
         }
-    }
-
-    public void changeCompleteOrderState(Order waiting) { //주문상태 변경 (대기 -> 완료)
-        if(!waiting.getOrderState()) {
-            waiting.setOrderState(true);
-        }
-        waitingList.remove(waiting); // 대기리스트에서는 삭제하고
-        completedList.add(waiting); // 완료리스트에서는 추가
     }
 }
