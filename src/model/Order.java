@@ -58,19 +58,12 @@ public class Order {
     // 주문했을 때 입력받은 값을 저장하는 메서드 (대기자번호id, 요청사항, 주문일시)
     public void saveOrder(int waitingNumber, String request) {
         String currentDate = LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toString();
-        /*if(currentDate.isEmpty()) {
-            store.waitingList().stream().
-            setWaitingNumber(waitingNumber);
-            setRequest(request);
-            setOrderDate(currentDate);
-        }*/
 
+        Order inCartOrder = new Order(orderList, waitingNumber);
+        inCartOrder.setRequest(request);
+        inCartOrder.setOrderDate(currentDate);
 
-        /*store.waitingList().stream().
-                setWaitingNumber(waitingNumber);
-        setRequest(request);
-        setOrderDate(currentDate);*/
-
+        store.waitingList.add(inCartOrder);
     }
 
     // 주문 상태를 반환하는 메서드 (완료일시가 null이 아니면 True)
