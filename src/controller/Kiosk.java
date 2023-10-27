@@ -1,7 +1,7 @@
 package controller;
 
 public abstract class Kiosk {
-    public int status;
+    public static int status;
     public Kiosk(){
     }
 }
