@@ -73,7 +73,7 @@ public class CustomerScreen {
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요." + "\n");
 
         for (int i = 0; i < shakeShackAllMenu.burger.size(); i++) {
-            System.out.println(i + 1 + ". " + shakeShackAllMenu.burger.get(i).getProductName() + " | " + shakeShackAllMenu.burger.get(i).getPrice() + " | " + shakeShackAllMenu.burger.get(i).getInfo());
+            System.out.println(i + 1 + ". " + shakeShackAllMenu.burger.get(i).getName() + " | " + shakeShackAllMenu.burger.get(i).getPrice() + " | " + shakeShackAllMenu.burger.get(i).getInfo());
         }
 
         // 선택한 메뉴 담기
