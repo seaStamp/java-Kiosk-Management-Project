@@ -37,4 +37,5 @@ public class ShakeShackAllMenu {
     public List<Product> drink = new ArrayList<>(Arrays.asList(RASPBERRY_LEMONADE, LEMONADE, FRESH_BREWED_ICED_TEA, FIFTY_FIFTY));
     public List<Product> concretes = new ArrayList<>(Arrays.asList(SHACK_ATTACK, HONEY_BUTTER_CRUNCH, BETTER_2GETHER, SHACK_FFOGATO));
 
+
 }
