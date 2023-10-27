@@ -65,12 +65,9 @@ public class Order {
             setOrderDate(currentDate);
         }*/
 
-
-        /*store.waitingList().stream().
-                setWaitingNumber(waitingNumber);
         setRequest(request);
-        setOrderDate(currentDate);*/
-
+        setOrderDate(currentDate);
+        store.waitingList.add(orderList(), waitingNumber);
     }
 
     // 주문 상태를 반환하는 메서드 (완료일시가 null이 아니면 True)
