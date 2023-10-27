@@ -13,14 +13,7 @@ public class Product extends Menu {
         this.info = productInfo;
         this.price = price;
         this.count = 1;
-    }
-
-    public String getProductName() {
-        return this.name;
-    }
-
-    public String getProductInfo() {
-        return this.info;
+        id++;
     }
 
     // getter
