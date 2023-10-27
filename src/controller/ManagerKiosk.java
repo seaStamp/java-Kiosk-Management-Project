@@ -1,5 +1,6 @@
 package controller;
 
+import input.InputDevice;
 import view.ManagerScreen;
 
 public class ManagerKiosk extends Kiosk {
@@ -44,7 +45,9 @@ public class ManagerKiosk extends Kiosk {
     }
 
     public static void handleMainMenu() {
+        switch(InputDevice.receiveInput(4)){
 
+        }
     }
     public static void handleWaitingOrderMenu() {
 
