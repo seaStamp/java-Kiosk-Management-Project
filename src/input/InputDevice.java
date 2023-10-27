@@ -1,3 +1,5 @@
+package input;
+
 import exception.OutOfRangeException;
 
 import java.util.Scanner;
