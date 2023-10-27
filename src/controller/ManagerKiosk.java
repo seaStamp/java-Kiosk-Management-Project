@@ -77,6 +77,7 @@ public class ManagerKiosk extends Kiosk {
     }
 
     private static void handleWaitingOrderListMenu() {
+
         int selectedNumber = InputDevice.receiveInt(Store.waitingList.size());
         int answer;
         if (selectedNumber == 0) {
@@ -93,6 +94,7 @@ public class ManagerKiosk extends Kiosk {
             }
         }
     }
+
 
     // 완료주문 목록
     private static void handleCompletedOrderListMenu() { // 매개변수로 받을 것 : List<Order>
@@ -147,6 +149,7 @@ public class ManagerKiosk extends Kiosk {
             }
         }
     }
+
 
 
     private static void handleDeleteProduct(List<Menu> menuList, HashMap<String, List<Product>> menus) {

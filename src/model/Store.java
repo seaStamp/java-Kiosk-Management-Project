@@ -1,5 +1,8 @@
 package model;
 
+import product.MainMenu;
+import product.ShakeShackAllMenu;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,19 +16,22 @@ public class Store {
     public static List<Order> completedList = new ArrayList<>(); // 완료된 주문리스트
 
     public Order order = new Order();
+    public ShakeShackAllMenu shackShackAllMenu = new ShakeShackAllMenu();
 
+    public void init() {
+        menuList.addAll(MainMenu.mainMenu);
+        menus.put(MainMenu.BURGERS.getName(), shackShackAllMenu.burger);
+        menus.put(MainMenu.CUSTARDS.getName(), shackShackAllMenu.custard);
+        menus.put(MainMenu.DRINKS.getName(), shackShackAllMenu.drink);
+        menus.put(MainMenu.CONCRETES.getName(), shackShackAllMenu.concretes);
+    }
 
     // 대기 주문을 추가하는 메서드
-    public void addWaitingOrder(Order myOrder) {
-        waitingList.add(myOrder);
+    public void addWaitingOrder(List<Product> orderList, int waitingNumber) {
+        Order newOrder = new Order(orderList, waitingNumber);
+        waitingList.add(newOrder);
     }
 
-    // 주문을 완료하는 메서드
-   /* public void completeOrder(Order myOrder) {
-        waitingList.remove(myOrder);
-        completedList.add(myOrder);
-    }
-*/
     // 주문을 완료하는 메서드
     public void changeCompleteOrderState(Order waiting) { //주문상태 변경 (대기 -> 완료)
         if(!waiting.getOrderState()) {
@@ -33,8 +39,6 @@ public class Store {
         }
         waitingList.remove(waiting);
         completedList.add(waiting);
-
-        //Order order1 = waitingList.get(order.orderList.get(index));
     }
 
     // 입력 받은 메뉴가 이미 존재하는건지 확인하는 메서드
