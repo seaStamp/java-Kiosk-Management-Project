@@ -1,13 +1,11 @@
 package view;
 
-import model.Menu;
 import model.Order;
 import model.Product;
-import org.w3c.dom.ls.LSOutput;
 import product.MainMenu;
 import product.ShakeShackAllMenu;
 
-import java.util.ArrayList;
+import javax.swing.*;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,12 +15,6 @@ public class CustomerScreen {
 
     // 전체 메뉴 불러오기 위해 사용
     ShakeShackAllMenu shakeShackAllMenu = new ShakeShackAllMenu();
-
-    // 선택한 메뉴 담는 곳
-    List<Product> orderMenu = new ArrayList<>();
-    // 선택한 메뉴 가격 담는 곳 (주문할 때 계산용)
-    List<Product> orderMenuPrice = new ArrayList<>();
-
 
     // 구분 선 표시
     public void displayLine(){
@@ -68,24 +60,23 @@ public class CustomerScreen {
     }
 
     // 상품 메뉴 화면
-    public void displayProductMenu() {
+    public void displayProductMenu(List<Product> addList) {
         welcomeMsg();
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요." + "\n");
 
         for (int i = 0; i < shakeShackAllMenu.burger.size(); i++) {
-            System.out.println(i + 1 + ". " + shakeShackAllMenu.burger.get(i).getProductName() + " | " + shakeShackAllMenu.burger.get(i).getPrice() + " | " + shakeShackAllMenu.burger.get(i).getInfo());
+            System.out.println(i + 1 + ". " + shakeShackAllMenu.burger.get(i).getName() + " | " + shakeShackAllMenu.burger.get(i).getPrice() + " | " + shakeShackAllMenu.burger.get(i).getInfo());
         }
-
         // 선택한 메뉴 담기
+        //System.out.println(arrayList.get(0).getName());
         displayLine();
         System.out.println();
 
     }
     // 구매 화면
-    public void purchaseScreen(Order order){
+    public void purchaseScreen(List<Product> order){    //매개변수 Order order 였는데,,
         // 장바구니에 담긴 메뉴 출력
-
-//        System.out.println(orderMenu.get(0));
+        System.out.println(order.get(0).getName() + " | " + order.get(0).getPrice() + " | " + order.get(0).getInfo() + "\n");
         System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
         System.out.println("1. 확인        2. 취소" + "\n");
         displayLine();
@@ -93,17 +84,20 @@ public class CustomerScreen {
     }
 
     // 주문 화면
-    public void orderScreen() {
+    public void orderScreen(List<Product> orderList) {
         System.out.println("아래와 같이 주문 하시겠습니까?");
         System.out.println();
         System.out.println("[ Orders ] ");
-        System.out.println();
         // 장바구니에 담긴 메뉴 출력 (orderMenu.add() 된 것을 get()으로 가져오기
-
-        System.out.println("[ Total ]" + "\n");
+        System.out.println(orderList.get(0).getName() + " | " + orderList.get(0).getPrice()+ " | " + orderList.get(0).getInfo());
+        System.out.println(orderList.get(1).getName() + " | " + orderList.get(1).getPrice()+ " | " + orderList.get(1).getInfo());
+        System.out.println();
+        System.out.println("[ Total ]");
         // 각 메뉴들의 가격의 합 출력 (orderMenuPrice.add() 된 것을 get()으로 가져와서 합 구하기
 
-
+        System.out.println(orderList.get(0).getPrice());
+        System.out.println(orderList.get(1).getPrice());
+        System.out.println();
         System.out.println("1. 주문       2. 메뉴판");
         displayLine();
         System.out.println();
@@ -112,6 +106,14 @@ public class CustomerScreen {
     // 요청사항
     public void requestedTerm(){
         System.out.println("요청사항을 입력해주세요. (20자 제한)");
+        String str;
+        Scanner sc = new Scanner(System.in);
+        str = sc.nextLine();
+        if(str.length() <= 20){
+            System.out.println(str);
+        }else {
+            System.out.println("입력가능한 글자를 초과하였습니다.");
+        }
         displayLine();
         System.out.println();
     }
