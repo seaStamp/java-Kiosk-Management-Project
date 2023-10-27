@@ -8,6 +8,9 @@ import model.Product;
 import model.Store;
 import view.ManagerScreen;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 public class ManagerKiosk extends Kiosk {
     // status 상수값
     private final static int HOME = 0;
@@ -89,22 +92,46 @@ public class ManagerKiosk extends Kiosk {
         }
     }
 
-    private static void handleCompletedOrderMenu() {
+    private static void handleCompletedOrderMenu() { // 매개변수로 받을 것 : List<Order>
         int selectedNumber = InputDevice.receiveInt(Store.completedList.size());
         int answer;
         if (selectedNumber == 0) {
             status = MAIN_MENU;
         } else if (selectedNumber != -1) {
-                // 완료 메뉴 출력(Store.waitingList.get(answer-1))
+                // 완료 메뉴 출력(Store.completeList.get(answer-1))
                 // ! 0에 대한 에러처리가 안되어있음.
             // 5초후 화면 전환이 더 자연스러울듯
             status = MAIN_MENU;
         }
     }
 
-    private static void handleCreateProduct() {
+    private static void handleCreateProduct() { // 매개변수로 받을 것 : List<Menu> menuList
+        int answer = InputDevice.receiveInt(Store.completedList.size());
+        if (answer != -1) {
+            if (answer == Store.menuList.size() + 1) { // 신규메뉴 선택
+                String newMenuName;
+                String newMenuInfo;
+                System.out.print("생성할 메뉴 이름을 입력해주세요 : ");
+                newMenuName= InputDevice.receiveString();
+                System.out.println("생성할 메뉴에 대한 설명을 입력해주세요 : ");
+                newMenuInfo = InputDevice.receiveString();
+                //store.createMenu(newMenuName, newMenuInfo);
+            }
+            String newProductName;
+            String newProductInfo;
+            double newProductPrice;
+            System.out.print("생성할 상품의 이름을 입력해주세요 : ");
+            newProductName= InputDevice.receiveString();
+            System.out.print("생성할 상품에 대한 설명을 입력해주세요 : ");
+            newProductInfo = InputDevice.receiveString();
+            System.out.print("생성할 상품의 가격을 입력해주세요 :  ");
+            newProductPrice = InputDevice.receiveDouble();  // 추가로 예외처리 해야할 수도있음
+            //store.createProduct(Store.menuList.get(answer - 1), )
 
+        }
     }
+
+
 
     private static void handleDeleteProduct() {
 
