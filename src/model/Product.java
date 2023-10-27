@@ -12,15 +12,8 @@ public class Product extends Menu {
         this.name = productName;
         this.info = productInfo;
         this.price = price;
-        this.count = 0;
-    }
-
-    public String getProductName() {
-        return this.name;
-    }
-
-    public String getProductInfo() {
-        return this.info;
+        this.count = 1;
+        id++;
     }
 
     // getter

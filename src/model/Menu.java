@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Menu {
+    protected int id = 0;
     protected String name;
     protected String info;
 <<<<<<< Updated upstream
@@ -18,6 +19,7 @@ public class Menu {
     public Menu(String category, String info) {
         this.name = category;
         this.info = info;
+        id++;
     }
 
     // getter
@@ -27,5 +29,9 @@ public class Menu {
 
     public String getInfo() {
         return this.info;
+    }
+
+    public int getId(){
+        return this.id;
     }
 }
