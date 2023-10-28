@@ -1,7 +1,9 @@
 package view;
 
+import controller.CustomerKiosk;
 import model.Order;
 import model.Product;
+import model.Store;
 import product.MainMenu;
 import product.ShakeShackAllMenu;
 
@@ -46,6 +48,7 @@ public class CustomerScreen {
         // Order & Cancel 불러오기
     }
 
+
     // 주문 현황
     public void orderStatus (){
         System.out.println("주문 현황입니다." + "\n");
@@ -53,10 +56,13 @@ public class CustomerScreen {
         // 예시
         System.out.println("대기번호 | " + "대기번호 | " + "대기번호" + "\n");
         System.out.println("[대기중인 주문]");
+
         // 예시
         System.out.println("대기번호 | " + "대기번호 | " + "대기번호 | " + "대기번호..." + "\n");
 
         System.out.println("1. 돌아가기" + "\n");
+
+        CustomerKiosk.status = 1;
     }
 
     // 상품 메뉴 화면
@@ -87,6 +93,7 @@ public class CustomerScreen {
     public void orderScreen(List<Product> orderList) {
         System.out.println("아래와 같이 주문 하시겠습니까?");
         System.out.println();
+
         System.out.println("[ Orders ] ");
         // 장바구니에 담긴 메뉴 출력 (orderMenu.add() 된 것을 get()으로 가져오기
         System.out.println(orderList.get(0).getName() + " | " + orderList.get(0).getPrice()+ " | " + orderList.get(0).getInfo());

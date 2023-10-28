@@ -27,10 +27,10 @@ public class Store {
     }
 
     // 대기 주문을 추가하는 메서드
-    public void addWaitingOrder(List<Product> orderList, int waitingNumber) {
+    /*public void addWaitingOrder(List<Product> orderList, int waitingNumber) {
         Order newOrder = new Order(orderList, waitingNumber);
         waitingList.add(newOrder);
-    }
+    }*/
 
     // 주문을 완료하는 메서드
     public void changeCompleteOrderState(Order waiting) { //주문상태 변경 (대기 -> 완료)

@@ -14,10 +14,12 @@ public class Parser {
             throw new BadinputException(endInclusive);
         }
         number = Integer.parseInt(answer);
+
         /* 범위 확인 */
         if (number < 0 || number > endInclusive){
             throw new BadinputException(endInclusive);
         }
+
         return number;
     }
     // 실수에 대해 파싱하는 메서드
