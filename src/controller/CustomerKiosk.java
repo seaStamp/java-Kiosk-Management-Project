@@ -8,6 +8,7 @@ import product.MainMenu;
 import product.ShakeShackAllMenu;
 import view.CustomerScreen;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerKiosk extends Kiosk{
@@ -32,6 +33,7 @@ public class CustomerKiosk extends Kiosk{
 
     private int waitingNumber = 1;
     private String request;
+    public static List<Order> recentlyCompletedOrders = new ArrayList<>(); // 최근 주문 3개
 
     public void customerKioskStart() throws Exception {
         while(true) {
@@ -47,11 +49,11 @@ public class CustomerKiosk extends Kiosk{
                     handleProductMenu(selectedMenu);
                     break;
                 case PRODUCT_ADD:
-                    screen.purchaseScreen(selectedProduct); // 매개변수 product로 받아야 함.
+                    screen.purchaseScreen(selectedProduct); // 매개변수: Product order
                     handleCart(selectedProduct);
                     break;
                 case CART:
-                    screen.orderScreen(order.orderList); // List<Order>를 매개변수로 받아야 함.
+                    screen.orderScreen(order.orderList);
                     handleProductAdd();
                     break;
                 case ORDER_CANCEL:
@@ -59,19 +61,19 @@ public class CustomerKiosk extends Kiosk{
                     handleOrderCancel();
                     break;
                 case ORDER_COMPLETE:
-                    screen.orderSuccessScreen();
                     handleComplete();
+                    screen.orderSuccessScreen();
                     break;
                 case ORDER_STATUS:
-                    screen.orderStatus();
                     handleStatus();
+                    screen.orderStatus();
                     break;
             }
         }
     }
 
     public void handleMainMenu() {
-        int nRange = mainMenu.mainMenu.size()+4;
+        int nRange = mainMenu.mainMenu.size()+3;
         int input = inputDevice.receiveInt(nRange);
 
         switch(input) {
@@ -92,7 +94,7 @@ public class CustomerKiosk extends Kiosk{
                 selectedMenu = shakeShakeAllMenu.concretes;
                 break;
             case 5:
-                status = ORDER_COMPLETE;
+                status = CART;
                 break;
             case 6:
                 status = ORDER_CANCEL;
@@ -104,7 +106,6 @@ public class CustomerKiosk extends Kiosk{
                 status = HOME;
                 break;
         }
-
     }
 
     // 상품 메뉴 화면 관련 메서드
@@ -121,32 +122,31 @@ public class CustomerKiosk extends Kiosk{
         if(input == 1) { // 장바구니에 추가
             if(order.alreadyExistInOrderList(currentPickProduct)) { // 이미 존재하면
                 order.addCount(currentPickProduct); // 수량 증가
+            } else { // 존재하지 않으면
+                order.orderList.add(currentPickProduct); // 새로 추가
             }
-        } else if(input == 2) { // 존재하지 않으면
-            order.orderList.add(currentPickProduct); // 새로 추가
         }
         status = MAIN_MENU;
     }
 
     // 주문화면 관련 메서드
-    public void handleProductAdd() throws Exception {
+    public void    handleProductAdd() throws Exception {
         int input = inputDevice.receiveInt(2);
 
         if(input == 1) {
             screen.requestedTerm(); // 요청사항 입력받기
             request = inputDevice.receiveString(20);
-            //order.saveOrder(waitingNumber++, request);
         }
         status = ORDER_COMPLETE;
     }
 
     // 주문 완료 관련 메서드
     public void handleComplete() {
-        store.addWaitingOrder(order.orderList, waitingNumber);
+        order.orderList.forEach(orderItem -> order.addTotalPrice(orderItem)); // totalPrice
+        order.saveOrder(order.orderList, waitingNumber, request); // 값 변경 후, waitingList에 추가.
 
-        order.saveOrder(waitingNumber, request);
-        order.orderList.clear();
         waitingNumber++;
+        order.orderList.clear();
         status = MAIN_MENU;
     }
 
@@ -159,12 +159,16 @@ public class CustomerKiosk extends Kiosk{
         status = MAIN_MENU;
     }
 
-
-
-    // 주문현황
+    // 주문현황 관련 메서드
     public void handleStatus() {
         int input = InputDevice.receiveInt(1);
+        int rotation = 3;
 
+        //store.waitingList.forEach(complete -> store.completedList.add(complete));
+        for(int num=0; num<rotation; num++) {
+            recentlyCompletedOrders.add(
+                    store.completedList.get(recentlyCompletedOrders.size()-num));
+        }
         if(input == 1) {
             status = MAIN_MENU;
         }
