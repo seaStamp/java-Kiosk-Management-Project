@@ -9,7 +9,6 @@ public class Order {
     private static Product product;
     private static Store store;
     public List<Product> orderList = new ArrayList<>(); // 주문상품 목록 (장바구니)
-
     private int waitingNumber; // 대기번호 id
     private String request; // 요청사항
     private String orderDate; // 주문일시
@@ -19,9 +18,10 @@ public class Order {
 
     public Order() {}
 
-    public Order(List<Product> orderList, int waitingNumber) {
+    public Order(List<Product> orderList, int waitingNumber, double totalPrice) {
         this.orderList = orderList;
         this.waitingNumber = waitingNumber;
+        this.totalPrice = totalPrice;
         request = "";
         orderDate = "";
         completeDate = "";
@@ -49,18 +49,11 @@ public class Order {
         return totalPrice;
     }
 
-    /*public void changeCompleteOrderState(Order waiting) { //주문상태 변경 (대기 -> 완료)
-        if(!waiting.getOrderState()) {
-            waiting.setOrderState(true); // waiting.setOrderState(!waiting.getOrderState());
-        }
-        store.completeOrder(waiting);
-    }*/
-
     // 주문했을 때 입력받은 값을 저장하는 메서드 (대기자번호id, 요청사항, 주문일시)
     public void saveOrder(List<Product> orderList, int waitingNumber, String request) {
         String currentDate = LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toString();
 
-        Order inCartOrder = new Order(orderList, waitingNumber);
+        Order inCartOrder = new Order(orderList, waitingNumber, totalPrice);
 
         inCartOrder.setRequest(request);
         inCartOrder.setOrderDate(currentDate);

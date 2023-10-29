@@ -14,7 +14,7 @@ public class InputDevice {
         parser = new Parser();
         int answer = -1;
         try {
-            parser.parseInt(scanner.nextLine(), n);
+            answer = parser.parseInt(scanner.nextLine(), n);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
