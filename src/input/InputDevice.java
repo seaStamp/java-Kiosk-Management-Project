@@ -21,10 +21,15 @@ public class InputDevice {
         return answer;
     }
 
-    // 실수형 입력을 받고 반환하는 메서드(상품생성 화면에서
+    // 실수형 입력을 받고 반환하는 메서드(상품생성 화면에서 쓰임, -1을 반환하면 입력에 실패한것)
     public static double receiveDouble() {
         Scanner scanner = new Scanner(System.in);
-        double answer = 0;
+        double answer = -1;
+        try{
+            answer = scanner.nextDouble();
+        }catch (Exception e){
+            System.out.println("<!> 잘못된 입력입니다! 실수 값을 입력해주세요!");
+        }
         return answer;
     }
 
