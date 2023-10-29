@@ -43,11 +43,12 @@ public class InputDevice {
 
     // 사용시 try-catch문으로 잡아줘야함.
     // 아무 값도 입력하지 않았을 경우 "(없음)"이 반환
-    // 입력에 실패하면 null값 반환
+    // 입력에 실패하면 ""값 반환
     public static String receiveString(int endInclusive) throws Exception {
         scanner = new Scanner(System.in);
         String answer = scanner.nextLine();
         if (answer.length() > endInclusive) {
+            answer = "";
             throw new OutOfRangeException(endInclusive);
         }
         if (answer.isEmpty()) {
