@@ -9,12 +9,12 @@ public class InputDevice {
     private static Parser parser;
 
     // 정수형 입력을 받는 메서드 (n은 1~n까지의 범위), -1을 반환하면 입력에 실패한것
-    public static int receiveInt(int n) {
+    public static int receiveInt(int startInclusive, int endInclusive) {
         scanner = new Scanner(System.in);
         parser = new Parser();
         int answer = -1;
         try {
-            answer = parser.parseInt(scanner.nextLine(), n);
+            answer = parser.parseInt(scanner.nextLine(), startInclusive,endInclusive);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
