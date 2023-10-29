@@ -105,41 +105,44 @@ public class ManagerKiosk extends Kiosk {
 
     // 상품생성 핸들러
     private static void handleCreateProduct(List<Menu> menuList) { // 리팩터링해야함
-        int selectedNumber = InputDevice.receiveInt(1, menuList.size());
+        int selectedNumber = InputDevice.receiveInt(1, menuList.size() + 1);
         int answer;
-        String newMenuName = null;
-        String newMenuInfo = null;
-        String newProductName;
-        String newProductInfo;
-        double newProductPrice;
+        String menuName = null;
+        String menuInfo = null;
+        String productName;
+        String productInfo;
+        double productPrice;
 
         if (selectedNumber != -1) {
             {
                 if (selectedNumber == Store.menuList.size() + 1) { // 신규메뉴 선택
                     System.out.print("생성할 메뉴 이름을 입력해주세요 : ");
-                    newMenuName = InputDevice.receiveString();
+                    menuName = InputDevice.receiveString();
                     System.out.println("생성할 메뉴에 대한 설명을 입력해주세요 : ");
-                    newMenuInfo = InputDevice.receiveString();
+                    menuInfo = InputDevice.receiveString();
+                } else {
+                    menuName = Store.menuList.get(selectedNumber - 1).getName();
+                    menuInfo = Store.menuList.get(selectedNumber - 1).getInfo();
                 }
 
                 System.out.print("생성할 상품의 이름을 입력해주세요 : ");
-                newProductName = InputDevice.receiveString();
+                productName = InputDevice.receiveString();
                 System.out.print("생성할 상품에 대한 설명을 입력해주세요 : ");
-                newProductInfo = InputDevice.receiveString();
+                productInfo = InputDevice.receiveString();
                 System.out.print("생성할 상품의 가격을 입력해주세요 :  ");
                 do {
-                    newProductPrice = InputDevice.receiveDouble();  // 추가로 예외처리 해야할 수도있음
-                } while (newProductPrice == -1);
-                screen.productCreate(newMenuName, newMenuInfo, newProductName, newProductInfo, newProductPrice);
+                    productPrice = InputDevice.receiveDouble();  // 추가로 예외처리 해야할 수도있음
+                } while (productPrice == -1);
+                screen.productCreate(menuName, menuInfo, productName, productInfo, productPrice);
                 status = MAIN_MENU;
                 do {
                     answer = InputDevice.receiveInt(1, 2);
                 } while (answer == -1);
                 if (answer == 1) {
                     if (selectedNumber == Store.menuList.size() + 1) {
-                        store.createMenu(newMenuName, newMenuInfo);
+                        store.createMenu(menuName, menuInfo);
                     }
-                    store.createProduct(menuList.get(selectedNumber - 1).getName(), newProductName, newProductInfo, newProductPrice);
+                    store.createProduct(menuList.get(selectedNumber - 1).getName(), productName, productInfo, productPrice);
                 }
             }
         }
@@ -149,11 +152,11 @@ public class ManagerKiosk extends Kiosk {
     private static void handleDeleteProduct(List<Menu> menuList, HashMap<String, List<Product>> menus) {
         int selectedNumber = InputDevice.receiveInt(1, menus.size());
         int answer = -1;
-        String menu;
+        Menu menu;
         List<Product> products;
         if (selectedNumber != -1) {// 에러가 나지 않는다면
-            menu = menuList.get(selectedNumber - 1).getName();
-            products = menus.get(menu);
+            menu = menuList.get(selectedNumber - 1);
+            products = menus.get(menu.getName());
             screen.productDeleteSelect(products);
             do {
                 selectedNumber = InputDevice.receiveInt(1, products.size());
@@ -162,7 +165,7 @@ public class ManagerKiosk extends Kiosk {
             do {
                 answer = InputDevice.receiveInt(1, 2);
             } while (answer == -1);
-            if(answer == 1){
+            if (answer == 1) {
                 store.deleteProduct(menu, products.get(selectedNumber - 1));
             }
             status = MAIN_MENU;
