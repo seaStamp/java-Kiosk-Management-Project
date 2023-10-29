@@ -1,15 +1,11 @@
 package controller;
 
 import input.InputDevice;
-import jdk.jshell.Snippet;
 import model.Menu;
-import model.Order;
 import model.Product;
 import model.Store;
 import view.ManagerScreen;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -32,24 +28,24 @@ public class ManagerKiosk extends Kiosk {
                     return;
                 }
                 case MAIN_MENU -> {
-                    //displayMainMenu();
+                    screen.displayMainMenu();
                     handleMainMenu();
                 }
                 case WAITNG_ORDER_LIST -> {
-                    //displayWaitingOrderList();
+                    screen.waitingOrderList(Store.waitingList);
                     handleWaitingOrderListMenu();
                 }
                 case COMPLETED_ORDER_LIST -> {
-                    //displayCompletedOrderList();
+                    screen.orderCompleteList(Store.completedList);
                     handleCompletedOrderListMenu();
                 }
                 case CREAT_PRODUCT -> {
-                    //displayCreatProduct();
+                    screen.productCreateMenu(Store.menuList);
                     handleCreateProduct(Store.menuList);
                 }
                 case DELETE_PRODUCT -> {
-                    // displayDeleteProduct();
-                    // handleDeleteProduct();
+                    screen.productDeleteMenu(Store.menuList);
+                    handleDeleteProduct(Store.menuList, Store.menus);
                 }
             }
         }
@@ -84,8 +80,7 @@ public class ManagerKiosk extends Kiosk {
             status = MAIN_MENU;
         } else if (selectedNumber != -1) {
             do {
-                // 주문 완료 처리하시겠습니까 메서드에 (Store.waitingList.get(answer-1))
-                // 출력을 한다면
+                screen.orderComplete(Store.waitingList.get(selectedNumber - 1));
                 answer = InputDevice.receiveInt(2);
             } while (answer == -1);
             status = MAIN_MENU;
@@ -99,14 +94,12 @@ public class ManagerKiosk extends Kiosk {
     // 완료주문 목록
     private static void handleCompletedOrderListMenu() { // 매개변수로 받을 것 : List<Order>
         int selectedNumber = InputDevice.receiveInt(Store.completedList.size());
-        int answer;
         if (selectedNumber == 0) {
             status = MAIN_MENU;
         } else if (selectedNumber != -1) {
-            // 완료 메뉴 출력(Store.completeList.get(answer-1))
-            // ! 0에 대한 에러처리가 안되어있음.
-            // 5초후 화면 전환이 더 자연스러울듯
             status = MAIN_MENU;
+            screen.orderCompleteNumber(Store.completedList.get(selectedNumber - 1));
+            // ! 0에 대한 에러처리가 안되어있음.
         }
     }
 
@@ -134,8 +127,10 @@ public class ManagerKiosk extends Kiosk {
                 System.out.print("생성할 상품에 대한 설명을 입력해주세요 : ");
                 newProductInfo = InputDevice.receiveString();
                 System.out.print("생성할 상품의 가격을 입력해주세요 :  ");
-                newProductPrice = InputDevice.receiveDouble();  // 추가로 예외처리 해야할 수도있음
-                //출력 추가할 상품
+                do {
+                    newProductPrice = InputDevice.receiveDouble();  // 추가로 예외처리 해야할 수도있음
+                } while (newProductPrice == -1);
+                screen.productCreate(newMenuName, newMenuInfo, newProductName, newProductInfo, newProductPrice);
                 status = MAIN_MENU;
                 do {
                     answer = InputDevice.receiveInt(2);
@@ -151,14 +146,18 @@ public class ManagerKiosk extends Kiosk {
     }
 
 
-
     private static void handleDeleteProduct(List<Menu> menuList, HashMap<String, List<Product>> menus) {
-        int idx = 0;
-
-
-
-        //int answer = InputDevice.receiveInt();
+        int answer = InputDevice.receiveInt(menus.size());
+        List<Product> products;
+        if (answer != -1) {// 에러가 나지 않는다면
+            products = menus.get(menuList.get(answer - 1));
+            screen.productDeleteSelect(products);
+            do {
+                answer = InputDevice.receiveInt(products.size());
+            } while (answer == -1);
+            store.deleteProduct(products.get(answer - 1));
+            status = MAIN_MENU;
+        }
     }
-
 
 }

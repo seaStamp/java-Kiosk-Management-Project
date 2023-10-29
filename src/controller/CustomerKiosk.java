@@ -161,7 +161,6 @@ public class CustomerKiosk extends Kiosk{
 
     // 주문현황 관련 메서드
     public void handleStatus() {
-        int input = InputDevice.receiveInt(1);
         int rotation = 3;
 
         //store.waitingList.forEach(complete -> store.completedList.add(complete));
@@ -169,8 +168,6 @@ public class CustomerKiosk extends Kiosk{
             recentlyCompletedOrders.add(
                     store.completedList.get(recentlyCompletedOrders.size()-num));
         }
-        if(input == 1) {
-            status = MAIN_MENU;
-        }
+        status = MAIN_MENU;
     }
 }
