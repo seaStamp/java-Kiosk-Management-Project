@@ -9,6 +9,7 @@ public class Order {
     private static Product product;
     private static Store store;
     public List<Product> orderList = new ArrayList<>(); // 주문상품 목록 (장바구니)
+
     private int waitingNumber; // 대기번호 id
     private String request; // 요청사항
     private String orderDate; // 주문일시

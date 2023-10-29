@@ -53,7 +53,7 @@ public class CustomerKiosk extends Kiosk{
                     handleCart(selectedProduct);
                     break;
                 case CART:
-                    screen.orderScreen(order.orderList);
+                    screen.orderScreen(order);
                     handleProductAdd();
                     break;
                 case ORDER_CANCEL:
@@ -62,11 +62,11 @@ public class CustomerKiosk extends Kiosk{
                     break;
                 case ORDER_COMPLETE:
                     handleComplete();
-                    screen.orderSuccessScreen();
+                    screen.orderSuccessScreen(order);
                     break;
                 case ORDER_STATUS:
                     handleStatus();
-                    screen.orderStatus();
+                    screen.orderStatus(recentlyCompletedOrders, Store.waitingList);    //최근 주문 3개
                     break;
             }
         }
