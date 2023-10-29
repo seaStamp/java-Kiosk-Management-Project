@@ -77,7 +77,7 @@ public class Order {
 
     // 주문 상태를 반환하는 메서드 (완료일시가 null이 아니면 True)
     public boolean getOrderState() {
-        if(!(completeDate == null)) { // 완료일시가 비어있지 않으면 완료상태
+        if(completeDate == null) { // 완료일시가 비어있지 않으면 완료상태
             completeDate = LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toString();
             orderState = true;
         }

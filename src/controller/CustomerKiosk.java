@@ -63,7 +63,7 @@ public class CustomerKiosk extends Kiosk {
                     break;
                 case ORDER_STATUS:
                     handleStatus();
-                    screen.orderStatus(recentlyCompletedOrders, Store.waitingList);    //최근 주문 3개
+                    screen.orderStatus(Store.completedList, Store.waitingList);    //최근 주문 3개
                     break;
             }
         }
@@ -168,13 +168,13 @@ public class CustomerKiosk extends Kiosk {
 
     // 주문현황 관련 메서드
     public void handleStatus() {
-        int rotation = 3;
+        // int rotation = 3;
 
         //store.waitingList.forEach(complete -> store.completedList.add(complete));\
-        for (int num = 0; num < rotation; num++) {
+        /* for (int num = 0; num < rotation; num++) {
             recentlyCompletedOrders.add(
                     Store.completedList.get(recentlyCompletedOrders.size() - num));
-        }
+        } */
         status = MAIN_MENU;
     }
 }
