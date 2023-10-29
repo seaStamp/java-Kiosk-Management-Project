@@ -36,6 +36,7 @@ public class CustomerKiosk extends Kiosk{
     public static List<Order> recentlyCompletedOrders = new ArrayList<>(); // 최근 주문 3개
 
     public void customerKioskStart() throws Exception {
+        status = MAIN_MENU;
         while(true) {
             switch (status) {
                 case HOME:
@@ -73,10 +74,12 @@ public class CustomerKiosk extends Kiosk{
     }
 
     public void handleMainMenu() {
-        int nRange = mainMenu.mainMenu.size()+3;
+        int nRange = mainMenu.mainMenu.size()+4;
         int input = inputDevice.receiveInt(nRange);
-
         switch(input) {
+            case 0:
+                status = HOME;
+                break;
             case 1:
                 status = PRODUCT_MENU;
                 selectedMenu = shakeShakeAllMenu.burger;
@@ -101,9 +104,6 @@ public class CustomerKiosk extends Kiosk{
                 break;
             case 7:
                 status = ORDER_STATUS;
-                break;
-            case 8:
-                status = HOME;
                 break;
         }
     }
@@ -130,7 +130,7 @@ public class CustomerKiosk extends Kiosk{
     }
 
     // 주문화면 관련 메서드
-    public void    handleProductAdd() throws Exception {
+    public void handleProductAdd() throws Exception {
         int input = inputDevice.receiveInt(2);
 
         if(input == 1) {
@@ -164,6 +164,7 @@ public class CustomerKiosk extends Kiosk{
         int rotation = 3;
 
         //store.waitingList.forEach(complete -> store.completedList.add(complete));
+        // 완료된 주문목록이 없을 때 처리해야함
         for(int num=0; num<rotation; num++) {
             recentlyCompletedOrders.add(
                     store.completedList.get(recentlyCompletedOrders.size()-num));
