@@ -1,5 +1,8 @@
 package model;
 
+import product.MainMenu;
+import product.ShakeShackAllMenu;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,19 +16,22 @@ public class Store {
     public static List<Order> completedList = new ArrayList<>(); // 완료된 주문리스트
 
     public Order order = new Order();
+    public ShakeShackAllMenu shackShackAllMenu = new ShakeShackAllMenu();
 
+    public void init() {
+        menuList.addAll(MainMenu.mainMenu);
+        menus.put(MainMenu.BURGERS.getName(), shackShackAllMenu.burger);
+        menus.put(MainMenu.CUSTARDS.getName(), shackShackAllMenu.custard);
+        menus.put(MainMenu.DRINKS.getName(), shackShackAllMenu.drink);
+        menus.put(MainMenu.CONCRETES.getName(), shackShackAllMenu.concretes);
+    }
 
     // 대기 주문을 추가하는 메서드
-    public void addWaitingOrder(Order myOrder) {
-        waitingList.add(myOrder);
+    public void addWaitingOrder(List<Product> orderList, int waitingNumber) {
+        Order newOrder = new Order(orderList, waitingNumber);
+        waitingList.add(newOrder);
     }
 
-    // 주문을 완료하는 메서드
-   /* public void completeOrder(Order myOrder) {
-        waitingList.remove(myOrder);
-        completedList.add(myOrder);
-    }
-*/
     // 주문을 완료하는 메서드
     public void changeCompleteOrderState(Order waiting) { //주문상태 변경 (대기 -> 완료)
         if(!waiting.getOrderState()) {
@@ -48,13 +54,17 @@ public class Store {
         return exist;
     }
 
-    // 상품을 생성하는 메서드
-    public void createProduct(String menuName, String menuInfo, String productName, String productInfo, double price) {
-        if(menuInfo.isEmpty()) {
-            menuList.add(new Menu(menuName, menuInfo));
-            menus.put(menuName, new ArrayList<>());
-        }
+    // 메뉴를 생성하는 메서드
+    public void createMenu(String menuName, String menuInfo) {
+        Menu newMenu = new Menu(menuName, menuInfo);
+        menuList.add(newMenu);
 
+        List<Product> menuItems = new ArrayList<>();
+        menus.put(menuName, menuItems);
+    }
+
+    // 상품을 생성하는 메서드
+    public void createProduct(String menuName, String productName, String productInfo, double price) {
         List<Product> menuItems = menus.get(menuName);
         menuItems.add(new Product(productName, productInfo, price));
     }

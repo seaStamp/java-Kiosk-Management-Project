@@ -35,8 +35,8 @@ public class CustomerScreen {
         for (int i = 0; i < mainMenu.mainMenu.size(); i++){
             System.out.println(i + 1 + ". " + mainMenu.mainMenu.get(i).getName() + " | " + mainMenu.mainMenu.get(i).getInfo());
         }
-        System.out.println();
         System.out.println(" [ ORDER MENU ] ");
+        System.out.println();
         System.out.println("5. Order            | 장바구니를 확인 후 주문합니다.");
         System.out.println("6. Cancel           | 진행중인 주문을 취소합니다.");
         System.out.println("7. Status of Order  | 주문 현황을 확인합니다.");
@@ -68,7 +68,6 @@ public class CustomerScreen {
             System.out.println(i + 1 + ". " + shakeShackAllMenu.burger.get(i).getName() + " | " + shakeShackAllMenu.burger.get(i).getPrice() + " | " + shakeShackAllMenu.burger.get(i).getInfo());
         }
         // 선택한 메뉴 담기
-        //System.out.println(arrayList.get(0).getName());
         displayLine();
         System.out.println();
 

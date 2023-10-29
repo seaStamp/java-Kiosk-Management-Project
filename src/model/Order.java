@@ -8,7 +8,8 @@ import java.util.List;
 public class Order {
     private static Product product;
     private static Store store;
-    public List<Product> orderList = new ArrayList<>(); // 주문상품 목록
+    public List<Product> orderList = new ArrayList<>(); // 주문상품 목록 (장바구니)
+
     private int waitingNumber; // 대기번호 id
     private String request; // 요청사항
     private String orderDate; // 주문일시
@@ -18,16 +19,12 @@ public class Order {
 
     public Order() {}
 
-    public Order(List<Product> orderList, int waitingNumber/*, String request, String orderDate, String completeDate, boolean orderState*/) {
+    public Order(List<Product> orderList, int waitingNumber) {
         this.orderList = orderList;
         this.waitingNumber = waitingNumber;
-        /*this.request = request;
-        this.orderDate = orderDate;
-        this.completeDate = completeDate;
-        this.orderState = orderState;*/
-        this.request = "";
-        this.orderDate = "";
-        this.completeDate = "";
+        request = "";
+        orderDate = "";
+        completeDate = "";
         orderState = false;
     }
     
@@ -62,11 +59,19 @@ public class Order {
     // 주문했을 때 입력받은 값을 저장하는 메서드 (대기자번호id, 요청사항, 주문일시)
     public void saveOrder(int waitingNumber, String request) {
         String currentDate = LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toString();
-        if(currentDate.isEmpty()) {
+        /*if(currentDate.isEmpty()) {
+            store.waitingList().stream().
             setWaitingNumber(waitingNumber);
             setRequest(request);
             setOrderDate(currentDate);
-        }
+        }*/
+
+
+        /*store.waitingList().stream().
+                setWaitingNumber(waitingNumber);
+        setRequest(request);
+        setOrderDate(currentDate);*/
+
     }
 
     // 주문 상태를 반환하는 메서드 (완료일시가 null이 아니면 True)
@@ -79,6 +84,22 @@ public class Order {
 
     public String getOrderDate() {
         return orderDate;
+    }
+
+    public String getCompleteDate() {
+        return completeDate;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public int getWaitingNumber() {
+        return waitingNumber;
+    }
+
+    public String getRequest() {
+        return request;
     }
 
     public void setOrderState(boolean orderState) {
