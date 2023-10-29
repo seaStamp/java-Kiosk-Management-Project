@@ -1,7 +1,9 @@
 package view;
 
+import controller.CustomerKiosk;
 import model.Order;
 import model.Product;
+import model.Store;
 import product.MainMenu;
 import product.ShakeShackAllMenu;
 
@@ -46,17 +48,34 @@ public class CustomerScreen {
         // Order & Cancel 불러오기
     }
 
+
     // 주문 현황
-    public void orderStatus (){
+    public void orderStatus (List<Order> recentlyCompletedOrders, List<Order> waitingList){
         System.out.println("주문 현황입니다." + "\n");
         System.out.println("[최근 완료된 주문]");
-        // 예시
-        System.out.println("대기번호 | " + "대기번호 | " + "대기번호" + "\n");
-        System.out.println("[대기중인 주문]");
-        // 예시
-        System.out.println("대기번호 | " + "대기번호 | " + "대기번호 | " + "대기번호..." + "\n");
+        for(int i = 0; i < recentlyCompletedOrders.size(); i++){
+            if(i == 2) {
+                System.out.print(recentlyCompletedOrders.get(i).getWaitingNumber() + "\n");
 
-        System.out.println("1. 돌아가기" + "\n");
+            }else {
+                System.out.print(recentlyCompletedOrders.get(i).getWaitingNumber() + " | ");
+            }
+        }
+        System.out.println("[대기중인 주문]");
+        for(int i = 0; i < waitingList.size(); i++){
+            if (i == waitingList.size() - 1){
+                System.out.println(waitingList.get(i).getWaitingNumber()+ "\n");
+            }
+            else {
+                System.out.println(waitingList.get(i).getWaitingNumber() + " | ");
+            }
+        }
+        System.out.println("3초후 메뉴판으로 돌아갑니다." + "\n");
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // 상품 메뉴 화면
@@ -64,8 +83,11 @@ public class CustomerScreen {
         welcomeMsg();
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요." + "\n");
 
-        for (int i = 0; i < shakeShackAllMenu.burger.size(); i++) {
-            System.out.println(i + 1 + ". " + shakeShackAllMenu.burger.get(i).getName() + " | " + shakeShackAllMenu.burger.get(i).getPrice() + " | " + shakeShackAllMenu.burger.get(i).getInfo());
+        for (int i = 0; i < addList.size(); i++) {
+            System.out.println(i + 1 + ". " +
+                    addList.get(i).getName() + " | " +
+                    addList.get(i).getPrice() + " | " +
+                    addList.get(i).getInfo());
         }
         // 선택한 메뉴 담기
         displayLine();
@@ -73,29 +95,29 @@ public class CustomerScreen {
 
     }
     // 구매 화면
-    public void purchaseScreen(List<Product> order){    //매개변수 Order order 였는데,,
+    public void purchaseScreen(Product product){    //매개변수 Order order 였는데,,
         // 장바구니에 담긴 메뉴 출력
-        System.out.println(order.get(0).getName() + " | " + order.get(0).getPrice() + " | " + order.get(0).getInfo() + "\n");
+        System.out.println(product.getName() + " | " + product.getPrice() + " | " + product.getInfo() + "\n");
         System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
         System.out.println("1. 확인        2. 취소" + "\n");
+
         displayLine();
         System.out.println();
     }
 
     // 주문 화면
-    public void orderScreen(List<Product> orderList) {
+    public void orderScreen(Order order) {
         System.out.println("아래와 같이 주문 하시겠습니까?");
         System.out.println();
+
         System.out.println("[ Orders ] ");
         // 장바구니에 담긴 메뉴 출력 (orderMenu.add() 된 것을 get()으로 가져오기
-        System.out.println(orderList.get(0).getName() + " | " + orderList.get(0).getPrice()+ " | " + orderList.get(0).getInfo());
-        System.out.println(orderList.get(1).getName() + " | " + orderList.get(1).getPrice()+ " | " + orderList.get(1).getInfo());
+        for(int i = 0; i < order.orderList.size(); i++){
+            System.out.println(order.orderList.get(i).getName() + " | " + order.orderList.get(i).getPrice()+ " | " + order.orderList.get(i).getInfo());
+        }
         System.out.println();
         System.out.println("[ Total ]");
-        // 각 메뉴들의 가격의 합 출력 (orderMenuPrice.add() 된 것을 get()으로 가져와서 합 구하기
-
-        System.out.println(orderList.get(0).getPrice());
-        System.out.println(orderList.get(1).getPrice());
+        System.out.println(order.getTotalPrice());
         System.out.println();
         System.out.println("1. 주문       2. 메뉴판");
         displayLine();
@@ -105,31 +127,21 @@ public class CustomerScreen {
     // 요청사항
     public void requestedTerm(){
         System.out.println("요청사항을 입력해주세요. (20자 제한)");
-        String str;
-        Scanner sc = new Scanner(System.in);
-        str = sc.nextLine();
-        if(str.length() <= 20){
-            System.out.println(str);
-        }else {
-            System.out.println("입력가능한 글자를 초과하였습니다.");
-        }
         displayLine();
         System.out.println();
     }
 
     // 주문완료 화면
-    public void orderSuccessScreen() {
+    public void orderSuccessScreen(Order waitingNumber) {
         System.out.println("주문이 완료되었습니다!" + "\n");
-
-        System.out.println("대기번호는 [ " + "1" + " ]" + "번 입니다." );
+        System.out.println("대기번호는 [ " + waitingNumber.getWaitingNumber() + " ]" + "번 입니다." );
         System.out.println("3초후 메뉴판으로 돌아갑니다." + "\n");
         // 3초
         try {
-            Thread.sleep(1000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        displayMainMenu();
         System.out.println();
 
     }

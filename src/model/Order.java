@@ -44,7 +44,7 @@ public class Order {
     }
 
     // 총 가격을 계산하여 반환하는 메서드
-    public double addTotalPrice() {
+    public double addTotalPrice(Product product) {
         totalPrice += product.getPrice();
         return totalPrice;
     }
@@ -57,21 +57,16 @@ public class Order {
     }*/
 
     // 주문했을 때 입력받은 값을 저장하는 메서드 (대기자번호id, 요청사항, 주문일시)
-    public void saveOrder(int waitingNumber, String request) {
+    public void saveOrder(List<Product> orderList, int waitingNumber, String request) {
         String currentDate = LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toString();
-        /*if(currentDate.isEmpty()) {
-            store.waitingList().stream().
-            setWaitingNumber(waitingNumber);
-            setRequest(request);
-            setOrderDate(currentDate);
-        }*/
 
+        Order inCartOrder = new Order(orderList, waitingNumber);
 
-        /*store.waitingList().stream().
-                setWaitingNumber(waitingNumber);
-        setRequest(request);
-        setOrderDate(currentDate);*/
+        inCartOrder.setRequest(request);
+        inCartOrder.setOrderDate(currentDate);
+        inCartOrder.setTotalPrice(totalPrice);
 
+        store.waitingList.add(inCartOrder);
     }
 
     // 주문 상태를 반환하는 메서드 (완료일시가 null이 아니면 True)
@@ -82,6 +77,7 @@ public class Order {
         return orderState;
     }
 
+    public List<Product> getOrderList() { return orderList; }
     public String getOrderDate() {
         return orderDate;
     }
@@ -116,5 +112,9 @@ public class Order {
 
     public void setRequest(String request) {
         this.request = request;
+    }
+
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }
