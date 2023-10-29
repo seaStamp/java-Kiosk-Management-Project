@@ -63,7 +63,7 @@ public class CustomerKiosk extends Kiosk {
                     break;
                 case ORDER_COMPLETE:
                     handleComplete();
-                    screen.orderSuccessScreen(order);
+                    screen.orderSuccessScreen(waitingNumber);
                     break;
                 case ORDER_STATUS:
                     handleStatus();
@@ -125,6 +125,7 @@ public class CustomerKiosk extends Kiosk {
             } else { // 존재하지 않으면
                 order.orderList.add(currentPickProduct); // 새로 추가
             }
+            order.addTotalPrice(currentPickProduct);
         }
         status = MAIN_MENU;
     }
@@ -136,17 +137,19 @@ public class CustomerKiosk extends Kiosk {
         if (input == 1) {
             screen.requestedTerm(); // 요청사항 입력받기
             request = inputDevice.receiveString(20);
+            status = ORDER_COMPLETE;
         }
-        status = ORDER_COMPLETE;
+        if (input == 2) {
+            status = MAIN_MENU;
+        }
     }
 
     // 주문 완료 관련 메서드
     public void handleComplete() {
         order.orderList.forEach(orderItem -> order.addTotalPrice(orderItem)); // totalPrice
         order.saveOrder(order.orderList, waitingNumber, request); // 값 변경 후, waitingList에 추가.
-
         waitingNumber++;
-        order.orderList.clear();
+        order = new Order();
         status = MAIN_MENU;
     }
 
@@ -155,6 +158,7 @@ public class CustomerKiosk extends Kiosk {
         int input = inputDevice.receiveInt(1, 2);
         if (input == 1) {
             order.orderList.clear();
+            order.setTotalPrice(0);
         }
         status = MAIN_MENU;
     }

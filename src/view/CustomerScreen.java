@@ -116,7 +116,7 @@ public class CustomerScreen {
         }
         System.out.println();
         System.out.println("[ Total ]");
-        System.out.println(order.getTotalPrice());
+        System.out.printf("%.1f\n",order.getTotalPrice());
         System.out.println();
         System.out.println("1. 주문       2. 메뉴판");
         displayLine();
@@ -131,9 +131,9 @@ public class CustomerScreen {
     }
 
     // 주문완료 화면
-    public void orderSuccessScreen(Order waitingNumber) {
+    public void orderSuccessScreen(int waitingNumber) {
         System.out.println("주문이 완료되었습니다!" + "\n");
-        System.out.println("대기번호는 [ " + waitingNumber.getWaitingNumber() + " ]" + "번 입니다." );
+        System.out.println("대기번호는 [ " + waitingNumber + " ]" + "번 입니다." );
         System.out.println("3초후 메뉴판으로 돌아갑니다." + "\n");
         // 3초
         try {

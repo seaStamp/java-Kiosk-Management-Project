@@ -22,6 +22,7 @@ public class ManagerKiosk extends Kiosk {
     private static Store store = new Store();
 
     public static void managerKioskStart() {
+        status = MAIN_MENU;
         while (true) {
             switch (status) {
                 case HOME -> {
@@ -146,15 +147,24 @@ public class ManagerKiosk extends Kiosk {
 
 
     private static void handleDeleteProduct(List<Menu> menuList, HashMap<String, List<Product>> menus) {
-        int answer = InputDevice.receiveInt(1, menus.size());
+        int selectedNumber = InputDevice.receiveInt(1, menus.size());
+        int answer = -1;
+        String menu;
         List<Product> products;
-        if (answer != -1) {// 에러가 나지 않는다면
-            products = menus.get(menuList.get(answer - 1));
+        if (selectedNumber != -1) {// 에러가 나지 않는다면
+            menu = menuList.get(selectedNumber - 1).getName();
+            products = menus.get(menu);
             screen.productDeleteSelect(products);
             do {
-                answer = InputDevice.receiveInt(1, products.size());
+                selectedNumber = InputDevice.receiveInt(1, products.size());
+            } while (selectedNumber == -1);
+            screen.deleteReconfirm();
+            do {
+                answer = InputDevice.receiveInt(1, 2);
             } while (answer == -1);
-            store.deleteProduct(products.get(answer - 1));
+            if(answer == 1){
+                store.deleteProduct(menu, products.get(selectedNumber - 1));
+            }
             status = MAIN_MENU;
         }
     }
