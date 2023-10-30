@@ -41,7 +41,7 @@ public class ManagerScreen {
         System.out.println("No. " + order.getWaitingNumber() + "\n주문 일시 : " + order.getOrderDate());
         System.out.println("\n[ Order ]");
         for (Product product : order.orderList) {
-            System.out.println(product.getName() + " | "
+            System.out.println(product.getName() + " | "+product.getCount()+" | "
                     + product.getPrice() + " | "
                     + product.getInfo());
         }
@@ -67,7 +67,7 @@ public class ManagerScreen {
         System.out.println("No. " + order.getWaitingNumber() + "\n주문 일시 : " + order.getOrderDate() + "\n완료 일시 : " + order.getCompleteDate());
         System.out.println("\n[ Order ]");
         for (Product product : order.orderList) {
-            System.out.println(product.getName() + " | "
+            System.out.println(product.getName() + " | "+product.getCount()+" | "
                     + product.getPrice() + " | "
                     + product.getInfo());
         }
