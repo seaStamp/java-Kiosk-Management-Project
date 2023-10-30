@@ -28,7 +28,15 @@ public class Menu {
         return this.info;
     }
 
-    public int getId(){
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public int getId() {
         return this.id;
     }
 }

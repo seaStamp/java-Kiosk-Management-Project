@@ -74,10 +74,8 @@ public class ManagerKiosk extends Kiosk {
         if (selectedNumber == 0) {
             status = ManagerKisokStatus.MAIN_MENU;
         } else if (selectedNumber != -1) {
-            do {
-                screen.orderComplete(Store.waitingList.get(selectedNumber - 1));
-                answer = InputDevice.receiveInt(1, 2);
-            } while (answer == -1);
+            screen.orderComplete(Store.waitingList.get(selectedNumber - 1));
+            answer = receiveTwoAnswer();
             status = ManagerKisokStatus.MAIN_MENU;
             if (answer == 1) {
                 store.changeCompleteOrderState(Store.waitingList.get(selectedNumber - 1));
@@ -98,48 +96,55 @@ public class ManagerKiosk extends Kiosk {
     }
 
     // 상품생성 핸들러
-    private static void handleCreateProduct(List<Menu> menuList) { // 리팩터링해야함
+    private static void handleCreateProduct(List<Menu> menuList) {
         int selectedNumber = InputDevice.receiveInt(1, menuList.size() + 1);
         int answer;
-        String menuName = null;
-        String menuInfo = null;
-        String productName;
-        String productInfo;
-        double productPrice;
+        Menu menu = new Menu();
+        Product newProduct = new Product();
 
         if (selectedNumber != -1) {
             {
                 if (selectedNumber == Store.menuList.size() + 1) { // 신규메뉴 선택
-                    System.out.print("생성할 메뉴 이름을 입력해주세요 : ");
-                    menuName = InputDevice.receiveString();
-                    System.out.println("생성할 메뉴에 대한 설명을 입력해주세요 : ");
-                    menuInfo = InputDevice.receiveString();
+                    menu = createNewMenu();
                 } else {
-                    menuName = Store.menuList.get(selectedNumber - 1).getName();
-                    menuInfo = Store.menuList.get(selectedNumber - 1).getInfo();
+                    menu.setName(Store.menuList.get(selectedNumber - 1).getName());
+                    menu.setInfo(Store.menuList.get(selectedNumber - 1).getInfo());
                 }
-
-                System.out.print("생성할 상품의 이름을 입력해주세요 : ");
-                productName = InputDevice.receiveString();
-                System.out.print("생성할 상품에 대한 설명을 입력해주세요 : ");
-                productInfo = InputDevice.receiveString();
-                System.out.print("생성할 상품의 가격을 입력해주세요 :  ");
-                do {
-                    productPrice = InputDevice.receiveDouble();  // 추가로 예외처리 해야할 수도있음
-                } while (productPrice == -1);
-                screen.productCreate(menuName, menuInfo, productName, productInfo, productPrice);
+                newProduct = createNewProduct();
+                screen.productCreate(menu, newProduct);
                 status = ManagerKisokStatus.MAIN_MENU;
-                do {
-                    answer = InputDevice.receiveInt(1, 2);
-                } while (answer == -1);
+                answer = receiveTwoAnswer();
                 if (answer == 1) {
                     if (selectedNumber == Store.menuList.size() + 1) {
-                        store.createMenu(menuName, menuInfo);
+                        store.createMenu(menu);
                     }
-                    store.createProduct(menuList.get(selectedNumber - 1).getName(), productName, productInfo, productPrice);
+                    store.createProduct(menu.getName(), newProduct);
+                    screen.productCreateComplete(newProduct.getName());
                 }
             }
         }
+    }
+
+    private static Menu createNewMenu() {
+        Menu menu = new Menu();
+        System.out.print("생성할 메뉴 이름을 입력해주세요 : ");
+        menu.setName(InputDevice.receiveString());
+        System.out.println("생성할 메뉴에 대한 설명을 입력해주세요 : ");
+        menu.setInfo(InputDevice.receiveString());
+        return menu;
+    }
+
+    private static Product createNewProduct() {
+        Product newProduct = new Product();
+        System.out.print("생성할 상품의 이름을 입력해주세요 : ");
+        newProduct.setName(InputDevice.receiveString());
+        System.out.print("생성할 상품에 대한 설명을 입력해주세요 : ");
+        newProduct.setInfo(InputDevice.receiveString());
+        System.out.print("생성할 상품의 가격을 입력해주세요 :  ");
+        do {
+            newProduct.setPrice(InputDevice.receiveDouble());
+        } while (newProduct.getPrice() == -1);
+        return newProduct;
     }
 
 
@@ -156,14 +161,22 @@ public class ManagerKiosk extends Kiosk {
                 selectedNumber = InputDevice.receiveInt(1, products.size());
             } while (selectedNumber == -1);
             screen.deleteReconfirm();
-            do {
-                answer = InputDevice.receiveInt(1, 2);
-            } while (answer == -1);
+            answer = receiveTwoAnswer();
             if (answer == 1) {
+                screen.deleteComplete(products.get(selectedNumber - 1).getName());
                 store.deleteProduct(menu, products.get(selectedNumber - 1));
             }
             status = ManagerKisokStatus.MAIN_MENU;
         }
     }
+
+    private static int receiveTwoAnswer() {
+        int answer = -1;
+        do {
+            answer = InputDevice.receiveInt(1, 2);
+        } while (answer == -1);
+        return answer;
+    }
+
 
 }

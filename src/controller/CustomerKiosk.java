@@ -21,6 +21,7 @@ public class CustomerKiosk extends Kiosk {
 
     private static CustomerScreen screen = new CustomerScreen();
     private static Order order = new Order();
+    private static Store store = new Store();
     private static ShakeShackAllMenu shakeShakeAllMenu = new ShakeShackAllMenu();
 
     private static List<Product> selectedMenu;
@@ -70,7 +71,32 @@ public class CustomerKiosk extends Kiosk {
     public void handleMainMenu() {
         int nRange = Store.menuList.size() + 3;
         int input = InputDevice.receiveInt(0, nRange);
-        switch (input) {
+
+        if(input >= 0 && input <= nRange) {
+            if(input == 0) {
+                status = HOME;
+            } else if(input <= store.menus.size()) {
+                status = PRODUCT_MENU;
+                String menuName = store.menuList.get(input-1).getName();
+                selectedMenu = store.menus.get(menuName);
+            } else if(input <= store.menus.size() + 3) {
+                switch(input - store.menus.size()) {
+                    case 1:
+                        cartEmptyCheck();
+                        break;
+                    case 2:
+                        status = ORDER_CANCEL;
+                        break;
+                    case 3:
+                        status = ORDER_STATUS;
+                        break;
+                }
+            }
+        }
+
+
+
+       /* switch (input) {
             case 0:
                 status = HOME;
                 break;
@@ -99,7 +125,7 @@ public class CustomerKiosk extends Kiosk {
             case 7:
                 status = ORDER_STATUS;
                 break;
-        }
+        }*/
     }
 
     // 상품 메뉴 화면 관련 메서드
@@ -175,6 +201,7 @@ public class CustomerKiosk extends Kiosk {
         status = MAIN_MENU;
     }
 
+    // 장바구니가 비어있는지 확인하는 메서드
     public void cartEmptyCheck() {
         if(order.orderList.size() > 0)
             status = CART;
