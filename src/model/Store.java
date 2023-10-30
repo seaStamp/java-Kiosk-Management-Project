@@ -26,7 +26,7 @@ public class Store {
         menus.put(MainMenu.CONCRETES.getName(), shackShackAllMenu.concretes);
     }
 
-    // 대기 주문을 추가하는 메서드
+//     대기 주문을 추가하는 메서드
 //    public void addWaitingOrder(List<Product> orderList, int waitingNumber) {
 //        Order newOrder = new Order(orderList, waitingNumber);
 //        waitingList.add(newOrder);

@@ -50,7 +50,7 @@ public class CustomerKiosk extends Kiosk {
                     handleCart(selectedProduct);
                     break;
                 case CART:
-                    screen.orderScreen(order);
+                    screen.orderScreen(order , selectedProduct);
                     handleProductAdd();
                     break;
                 case ORDER_CANCEL:
