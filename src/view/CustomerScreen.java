@@ -14,6 +14,7 @@ import java.util.Scanner;
 public class CustomerScreen {
     // mainMenu 불러오기 위해 사용
     MainMenu mainMenu = new MainMenu();
+    Store store = new Store();
 
     // 전체 메뉴 불러오기 위해 사용
     ShakeShackAllMenu shakeShackAllMenu = new ShakeShackAllMenu();
@@ -30,18 +31,21 @@ public class CustomerScreen {
 
     // 전체 메뉴 화면 (메인 메뉴)
     public void displayMainMenu() {
+        int i=0;
+
         welcomeMsg();
         System.out.println("아래 메뉴판을 보시고 메뉴를 골라 입력해주세요." + "\n");
         System.out.println("[ SHAKESHACK MENU ]");
         // 전체 메뉴 불러오기
-        for (int i = 0; i < mainMenu.mainMenu.size(); i++) {
-            System.out.println(i + 1 + ". " + mainMenu.mainMenu.get(i).getName() + " | " + mainMenu.mainMenu.get(i).getInfo());
+        for (i = 0; i < store.menus.size(); i++) {
+            System.out.println(i + 1 + ". " + store.menuList.get(i).getName() + " | " + store.menuList.get(i).getInfo());
         }
-        System.out.println(" [ ORDER MENU ] ");
+
         System.out.println();
-        System.out.println("5. Order            | 장바구니를 확인 후 주문합니다.");
-        System.out.println("6. Cancel           | 진행중인 주문을 취소합니다.");
-        System.out.println("7. Status of Order  | 주문 현황을 확인합니다.");
+        System.out.println(" [ ORDER MENU ] ");
+        System.out.println(++i + ". Order            | 장바구니를 확인 후 주문합니다.");
+        System.out.println(++i + ". Cancel           | 진행중인 주문을 취소합니다.");
+        System.out.println(++i + ". Status of Order  | 주문 현황을 확인합니다.");
         displayLine();
         System.out.println();
         // Order & Cancel 불러오기

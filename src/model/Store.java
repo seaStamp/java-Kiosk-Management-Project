@@ -59,6 +59,7 @@ public class Store {
         Menu newMenu = new Menu(menuName, menuInfo);
         menuList.add(newMenu);
 
+
         List<Product> menuItems = new ArrayList<>();
         menus.put(menuName, menuItems);
     }
