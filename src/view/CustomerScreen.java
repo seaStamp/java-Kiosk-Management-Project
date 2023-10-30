@@ -1,24 +1,12 @@
 package view;
 
-import controller.CustomerKiosk;
 import model.Order;
 import model.Product;
 import model.Store;
-import product.MainMenu;
-import product.ShakeShackAllMenu;
 
-import javax.swing.*;
 import java.util.List;
-import java.util.Scanner;
 
 public class CustomerScreen {
-    // mainMenu 불러오기 위해 사용
-    MainMenu mainMenu = new MainMenu();
-    Store store = new Store();
-
-    // 전체 메뉴 불러오기 위해 사용
-    ShakeShackAllMenu shakeShackAllMenu = new ShakeShackAllMenu();
-
     // 구분 선 표시
     public void displayLine() {
         System.out.println("------------------------------------------------");
@@ -31,14 +19,14 @@ public class CustomerScreen {
 
     // 전체 메뉴 화면 (메인 메뉴)
     public void displayMainMenu() {
-        int i=0;
+        int i;
 
         welcomeMsg();
         System.out.println("아래 메뉴판을 보시고 메뉴를 골라 입력해주세요." + "\n");
         System.out.println("[ SHAKESHACK MENU ]");
         // 전체 메뉴 불러오기
-        for (i = 0; i < store.menus.size(); i++) {
-            System.out.println(i + 1 + ". " + store.menuList.get(i).getName() + " | " + store.menuList.get(i).getInfo());
+        for (i = 0; i < Store.menus.size(); i++) {
+            System.out.println(i + 1 + ". " + Store.menuList.get(i).getName() + " | " + Store.menuList.get(i).getInfo());
         }
         System.out.println();
         System.out.println(" [ ORDER MENU ] ");
