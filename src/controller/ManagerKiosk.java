@@ -1,15 +1,11 @@
 package controller;
 
 import input.InputDevice;
-import jdk.jshell.Snippet;
 import model.Menu;
-import model.Order;
 import model.Product;
 import model.Store;
 import view.ManagerScreen;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,30 +22,31 @@ public class ManagerKiosk extends Kiosk {
     private static Store store = new Store();
 
     public static void managerKioskStart() {
+        status = MAIN_MENU;
         while (true) {
             switch (status) {
                 case HOME -> {
                     return;
                 }
                 case MAIN_MENU -> {
-                    //displayMainMenu();
+                    screen.displayMainMenu();
                     handleMainMenu();
                 }
                 case WAITNG_ORDER_LIST -> {
-                    //displayWaitingOrderList();
+                    screen.waitingOrderList(Store.waitingList);
                     handleWaitingOrderListMenu();
                 }
                 case COMPLETED_ORDER_LIST -> {
-                    //displayCompletedOrderList();
+                    screen.orderCompleteList(Store.completedList);
                     handleCompletedOrderListMenu();
                 }
                 case CREAT_PRODUCT -> {
-                    //displayCreatProduct();
+                    screen.productCreateMenu(Store.menuList);
                     handleCreateProduct(Store.menuList);
                 }
                 case DELETE_PRODUCT -> {
-                    // displayDeleteProduct();
-                    // handleDeleteProduct();
+                    screen.productDeleteMenu(Store.menuList);
+                    handleDeleteProduct(Store.menuList, Store.menus);
                 }
             }
         }
@@ -57,7 +54,7 @@ public class ManagerKiosk extends Kiosk {
 
     private static void handleMainMenu() {
         status = MAIN_MENU;
-        switch (InputDevice.receiveInt(4)) {
+        switch (InputDevice.receiveInt(0, 4)) {
             case 0 -> {
                 status = HOME;
             }
@@ -78,15 +75,14 @@ public class ManagerKiosk extends Kiosk {
 
     private static void handleWaitingOrderListMenu() {
 
-        int selectedNumber = InputDevice.receiveInt(Store.waitingList.size());
+        int selectedNumber = InputDevice.receiveInt(0, Store.waitingList.size());
         int answer;
         if (selectedNumber == 0) {
             status = MAIN_MENU;
         } else if (selectedNumber != -1) {
             do {
-                // 주문 완료 처리하시겠습니까 메서드에 (Store.waitingList.get(answer-1))
-                // 출력을 한다면
-                answer = InputDevice.receiveInt(2);
+                screen.orderComplete(Store.waitingList.get(selectedNumber - 1));
+                answer = InputDevice.receiveInt(1, 2);
             } while (answer == -1);
             status = MAIN_MENU;
             if (answer == 1) {
@@ -98,67 +94,82 @@ public class ManagerKiosk extends Kiosk {
 
     // 완료주문 목록
     private static void handleCompletedOrderListMenu() { // 매개변수로 받을 것 : List<Order>
-        int selectedNumber = InputDevice.receiveInt(Store.completedList.size());
-        int answer;
+        int selectedNumber = InputDevice.receiveInt(0, Store.completedList.size());
         if (selectedNumber == 0) {
             status = MAIN_MENU;
         } else if (selectedNumber != -1) {
-            // 완료 메뉴 출력(Store.completeList.get(answer-1))
-            // ! 0에 대한 에러처리가 안되어있음.
-            // 5초후 화면 전환이 더 자연스러울듯
             status = MAIN_MENU;
+            screen.orderCompleteNumber(Store.completedList.get(selectedNumber - 1));
         }
     }
 
     // 상품생성 핸들러
     private static void handleCreateProduct(List<Menu> menuList) { // 리팩터링해야함
-        int selectedNumber = InputDevice.receiveInt(menuList.size());
+        int selectedNumber = InputDevice.receiveInt(1, menuList.size() + 1);
         int answer;
-        String newMenuName = null;
-        String newMenuInfo = null;
-        String newProductName;
-        String newProductInfo;
-        double newProductPrice;
+        String menuName = null;
+        String menuInfo = null;
+        String productName;
+        String productInfo;
+        double productPrice;
 
         if (selectedNumber != -1) {
             {
                 if (selectedNumber == Store.menuList.size() + 1) { // 신규메뉴 선택
                     System.out.print("생성할 메뉴 이름을 입력해주세요 : ");
-                    newMenuName = InputDevice.receiveString();
+                    menuName = InputDevice.receiveString();
                     System.out.println("생성할 메뉴에 대한 설명을 입력해주세요 : ");
-                    newMenuInfo = InputDevice.receiveString();
+                    menuInfo = InputDevice.receiveString();
+                } else {
+                    menuName = Store.menuList.get(selectedNumber - 1).getName();
+                    menuInfo = Store.menuList.get(selectedNumber - 1).getInfo();
                 }
 
                 System.out.print("생성할 상품의 이름을 입력해주세요 : ");
-                newProductName = InputDevice.receiveString();
+                productName = InputDevice.receiveString();
                 System.out.print("생성할 상품에 대한 설명을 입력해주세요 : ");
-                newProductInfo = InputDevice.receiveString();
+                productInfo = InputDevice.receiveString();
                 System.out.print("생성할 상품의 가격을 입력해주세요 :  ");
-                newProductPrice = InputDevice.receiveDouble();  // 추가로 예외처리 해야할 수도있음
-                //출력 추가할 상품
+                do {
+                    productPrice = InputDevice.receiveDouble();  // 추가로 예외처리 해야할 수도있음
+                } while (productPrice == -1);
+                screen.productCreate(menuName, menuInfo, productName, productInfo, productPrice);
                 status = MAIN_MENU;
                 do {
-                    answer = InputDevice.receiveInt(2);
+                    answer = InputDevice.receiveInt(1, 2);
                 } while (answer == -1);
                 if (answer == 1) {
                     if (selectedNumber == Store.menuList.size() + 1) {
-                        store.createMenu(newMenuName, newMenuInfo);
+                        store.createMenu(menuName, menuInfo);
                     }
-                    store.createProduct(menuList.get(selectedNumber - 1).getName(), newProductName, newProductInfo, newProductPrice);
+                    store.createProduct(menuList.get(selectedNumber - 1).getName(), productName, productInfo, productPrice);
                 }
             }
         }
     }
 
 
-
     private static void handleDeleteProduct(List<Menu> menuList, HashMap<String, List<Product>> menus) {
-        int idx = 0;
-
-
-
-        //int answer = InputDevice.receiveInt();
+        int selectedNumber = InputDevice.receiveInt(1, menus.size());
+        int answer = -1;
+        Menu menu;
+        List<Product> products;
+        if (selectedNumber != -1) {// 에러가 나지 않는다면
+            menu = menuList.get(selectedNumber - 1);
+            products = menus.get(menu.getName());
+            screen.productDeleteSelect(products);
+            do {
+                selectedNumber = InputDevice.receiveInt(1, products.size());
+            } while (selectedNumber == -1);
+            screen.deleteReconfirm();
+            do {
+                answer = InputDevice.receiveInt(1, 2);
+            } while (answer == -1);
+            if (answer == 1) {
+                store.deleteProduct(menu, products.get(selectedNumber - 1));
+            }
+            status = MAIN_MENU;
+        }
     }
-
 
 }

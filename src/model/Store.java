@@ -70,12 +70,17 @@ public class Store {
     }
 
     // 상품을 삭제하는 메서드 ( 매개변수 - 삭제할 상품 선택시 선택된 상품 객체 (Product) )
-    public void deleteProduct(Product item) {
-        for(List<Product> menuInProductList  : menus.values()) { // menus의 모든 값을 가져와
+    public void deleteProduct(Menu menu, Product item) {
+        /*for(List<Product> menuInProductList  : menus.values()) { // menus의 모든 값을 가져와
             if(menuInProductList.contains(item)) {
                 menuInProductList.remove(item);
             }
             break;
+        }*/
+        menus.get(menu.getName()).remove(item);
+        if(menus.get(menu.getName()).isEmpty()){
+            menus.remove(menu.getName());
+            menuList.remove(menu);
         }
     }
 }
