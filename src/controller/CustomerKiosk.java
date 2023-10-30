@@ -91,7 +91,7 @@ public class CustomerKiosk extends Kiosk {
                 selectedMenu = shakeShakeAllMenu.concretes;
                 break;
             case 5:
-                status = CART;
+                cartEmptyCheck();
                 break;
             case 6:
                 status = ORDER_CANCEL;
@@ -173,5 +173,12 @@ public class CustomerKiosk extends Kiosk {
     // 주문현황 관련 메서드
     public void handleStatus() {
         status = MAIN_MENU;
+    }
+
+    public void cartEmptyCheck() {
+        if(order.orderList.size() > 0)
+            status = CART;
+        else
+            System.out.println("장바구니가 비어있습니다. 메뉴를 고른 후 주문을 진행해주세요.\n");
     }
 }
