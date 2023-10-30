@@ -9,14 +9,14 @@ import view.ManagerScreen;
 import java.util.HashMap;
 import java.util.List;
 
-public class ManagerKiosk extends Kiosk {
+public class ManagerKiosk {
     // status 상수값
-    public static ManagerKisokStatus status;
+    public static ManagerKioskStatus status;
     private static final ManagerScreen screen = new ManagerScreen();
     private static final Store store = new Store();
 
     public static void managerKioskStart() {
-        status = ManagerKisokStatus.MAIN_MENU;
+        status = ManagerKioskStatus.MAIN_MENU;
         while (true) {
             switch (status) {
                 case HOME -> {
@@ -47,22 +47,22 @@ public class ManagerKiosk extends Kiosk {
     }
 
     private static void handleMainMenu() {
-        status = ManagerKisokStatus.MAIN_MENU;
+        status = ManagerKioskStatus.MAIN_MENU;
         switch (InputDevice.receiveInt(0, 4)) {
             case 0 -> {
-                status = ManagerKisokStatus.HOME;
+                status = ManagerKioskStatus.HOME;
             }
             case 1 -> {
-                status = ManagerKisokStatus.WAITNG_ORDER_LIST;
+                status = ManagerKioskStatus.WAITNG_ORDER_LIST;
             }
             case 2 -> {
-                status = ManagerKisokStatus.COMPLETED_ORDER_LIST;
+                status = ManagerKioskStatus.COMPLETED_ORDER_LIST;
             }
             case 3 -> {
-                status = ManagerKisokStatus.CREAT_PRODUCT;
+                status = ManagerKioskStatus.CREAT_PRODUCT;
             }
             case 4 -> {
-                status = ManagerKisokStatus.DELETE_PRODUCT;
+                status = ManagerKioskStatus.DELETE_PRODUCT;
             }
         }
     }
@@ -72,11 +72,11 @@ public class ManagerKiosk extends Kiosk {
         int selectedNumber = InputDevice.receiveInt(0, Store.waitingList.size());
         int answer;
         if (selectedNumber == 0) {
-            status = ManagerKisokStatus.MAIN_MENU;
+            status = ManagerKioskStatus.MAIN_MENU;
         } else if (selectedNumber != -1) {
             screen.orderComplete(Store.waitingList.get(selectedNumber - 1));
             answer = receiveTwoAnswer();
-            status = ManagerKisokStatus.MAIN_MENU;
+            status = ManagerKioskStatus.MAIN_MENU;
             if (answer == 1) {
                 store.changeCompleteOrderState(Store.waitingList.get(selectedNumber - 1));
             }
@@ -88,9 +88,9 @@ public class ManagerKiosk extends Kiosk {
     private static void handleCompletedOrderListMenu() { // 매개변수로 받을 것 : List<Order>
         int selectedNumber = InputDevice.receiveInt(0, Store.completedList.size());
         if (selectedNumber == 0) {
-            status = ManagerKisokStatus.MAIN_MENU;
+            status = ManagerKioskStatus.MAIN_MENU;
         } else if (selectedNumber != -1) {
-            status = ManagerKisokStatus.MAIN_MENU;
+            status = ManagerKioskStatus.MAIN_MENU;
             screen.orderCompleteNumber(Store.completedList.get(selectedNumber - 1));
         }
     }
@@ -112,7 +112,7 @@ public class ManagerKiosk extends Kiosk {
                 }
                 newProduct = createNewProduct();
                 screen.productCreate(menu, newProduct);
-                status = ManagerKisokStatus.MAIN_MENU;
+                status = ManagerKioskStatus.MAIN_MENU;
                 answer = receiveTwoAnswer();
                 if (answer == 1) {
                     if (selectedNumber == Store.menuList.size() + 1) {
@@ -166,7 +166,7 @@ public class ManagerKiosk extends Kiosk {
                 screen.deleteComplete(products.get(selectedNumber - 1).getName());
                 store.deleteProduct(menu, products.get(selectedNumber - 1));
             }
-            status = ManagerKisokStatus.MAIN_MENU;
+            status = ManagerKioskStatus.MAIN_MENU;
         }
     }
 
