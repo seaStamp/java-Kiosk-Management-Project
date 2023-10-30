@@ -94,9 +94,9 @@ public class ManagerScreen {
         System.out.println((x + 1) + ". " + "신규 메뉴 생성");
     }
 
-    public void productCreate(String menuName, String menuInfo, String productName, String productInfo, double productPrice) {
+    public void productCreate(Menu menu, Product product) {
         //상품 생성 멘트
-        System.out.printf("%s | %s \n%s | %s | %.1f\n위 상품을 추가하시겠습니까?", menuName, menuInfo, productName, productInfo, productPrice);
+        System.out.printf("%s | %s \n%s | %s | %.1f\n위 상품을 추가하시겠습니까?\n", menu.getName(), menu.getInfo(), product.getName(), product.getInfo(), product.getPrice());
         System.out.println("1. 확인        2. 취소");
     }
 
