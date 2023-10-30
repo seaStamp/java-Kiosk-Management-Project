@@ -41,7 +41,7 @@ public class CustomerKiosk {
                     handleCart(selectedProduct);
                     break;
                 case CART:
-                    screen.orderScreen(order , selectedProduct);
+                    screen.orderScreen(order);
                     handleProductAdd();
                     break;
                 case ORDER_CANCEL:
