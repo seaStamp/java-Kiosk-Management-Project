@@ -55,18 +55,18 @@ public class Store {
     }
 
     // 메뉴를 생성하는 메서드
-    public void createMenu(String menuName, String menuInfo) {
-        Menu newMenu = new Menu(menuName, menuInfo);
+    public void createMenu(Menu newMenu) {
         menuList.add(newMenu);
 
         List<Product> menuItems = new ArrayList<>();
-        menus.put(menuName, menuItems);
+        menus.put(newMenu.getName(), menuItems);
     }
 
     // 상품을 생성하는 메서드
-    public void createProduct(String menuName, String productName, String productInfo, double price) {
-        List<Product> menuItems = menus.get(menuName);
-        menuItems.add(new Product(productName, productInfo, price));
+    public void createProduct(String menuName, Product newProduct) {
+//        List<Product> menuItems = menus.get(menuName);
+//        menuItems.add(newProduct);
+        menus.get(menuName).add(newProduct);
     }
 
     // 상품을 삭제하는 메서드 ( 매개변수 - 삭제할 상품 선택시 선택된 상품 객체 (Product) )
