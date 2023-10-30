@@ -7,7 +7,6 @@ import model.Store;
 import product.ShakeShackAllMenu;
 import view.CustomerScreen;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerKiosk extends Kiosk {
@@ -29,8 +28,6 @@ public class CustomerKiosk extends Kiosk {
 
     private int waitingNumber = 0;
     private String request;
-    public static List<Order> recentlyCompletedOrders = new ArrayList<>(); // 최근 주문 3개
-    private static double totalPrice = 0; // 장바구니에 담긴 상품들의 totalPrice
 
     public void customerKioskStart() throws Exception {
         status = MAIN_MENU;
@@ -51,7 +48,7 @@ public class CustomerKiosk extends Kiosk {
                     handleCart(selectedProduct);
                     break;
                 case CART:
-                    screen.orderScreen(order.orderList, totalPrice);
+                    screen.orderScreen(order);
                     handleProductAdd();
                     break;
                 case ORDER_CANCEL:
@@ -60,13 +57,6 @@ public class CustomerKiosk extends Kiosk {
                     break;
                 case ORDER_COMPLETE:
                     handleComplete();
-/*
-                    screen.orderSuccessScreen(store.waitingList.get(store.waitingList.size()-1)); // 가장 최근 추가된 order를 매개변수로
-                    break;
-                case ORDER_STATUS:
-                    handleStatus();
-                    screen.orderStatus(recentlyCompletedOrders, store.waitingList);
-*/
                     screen.orderSuccessScreen(waitingNumber);
                     break;
                 case ORDER_STATUS:
@@ -115,29 +105,28 @@ public class CustomerKiosk extends Kiosk {
     // 상품 메뉴 화면 관련 메서드
     public void handleProductMenu(List<Product> selectedMenu) {
         int input = InputDevice.receiveInt(1, selectedMenu.size());
-        selectedProduct = selectedMenu.get(input - 1); // 선택된 상품
-        status = PRODUCT_ADD;
+        if (input >= 1 && input <= selectedMenu.size()) {
+            selectedProduct = selectedMenu.get(input - 1); // 선택된 상품
+            status = PRODUCT_ADD;
+        }
     }
 
     // 구매화면 관련 메서드(장바구니)
     public void handleCart(Product currentPickProduct) {
         int input = InputDevice.receiveInt(1, 2);
 
-/*
-        if(input == 1) { // 장바구니에 추가
-            totalPrice = order.addTotalPrice(currentPickProduct);
-
-            if(order.alreadyExistInOrderList(currentPickProduct)) { // 이미 존재하면
-*/
-        if (input == 1) { // 장바구니에 추가
-            if (order.alreadyExistInOrderList(currentPickProduct)) { // 이미 존재하면
-                order.addCount(currentPickProduct); // 수량 증가
-            } else { // 존재하지 않으면
-                order.orderList.add(currentPickProduct); // 새로 추가
+        if (input >= 1 && input <= 2) {
+            if (input == 1) { // 장바구니에 추가
+                if (order.alreadyExistInOrderList(currentPickProduct)) { // 이미 존재하면
+                    order.addCount(currentPickProduct); // 수량 증가
+                } else { // 존재하지 않으면
+                    order.orderList.add(currentPickProduct); // 새로 추가
+                }
+                order.addTotalPrice(currentPickProduct);
             }
-            order.addTotalPrice(currentPickProduct);
+            status = MAIN_MENU;
         }
-        status = MAIN_MENU;
+
     }
 
     // 주문화면 관련 메서드
@@ -163,14 +152,6 @@ public class CustomerKiosk extends Kiosk {
 
     // 주문 완료 관련 메서드
     public void handleComplete() {
-/*
-        order.orderList.forEach(orderItem -> order.addTotalPrice(orderItem)); // totalPriceW
-        order.saveOrder(order.orderList, waitingNumber, request); // 값 변경 후, waitingList에 추가.
-
-        waitingNumber++;
-        totalPrice = 0;
-        order.orderList.clear();
-*/
         waitingNumber++;
         order.saveOrder(waitingNumber, request); // 값 변경 후, waitingList에 추가.
         order = new Order();
@@ -179,28 +160,18 @@ public class CustomerKiosk extends Kiosk {
 
     // 주문 취소 관련 메서드
     public void handleOrderCancel() {
-/*
-        int input = inputDevice.receiveInt(2);
-        if(input == 1) {
-            totalPrice = 0;
-*/
         int input = InputDevice.receiveInt(1, 2);
-        if (input == 1) {
-            order.orderList.clear();
-            order.setTotalPrice(0);
+        if (input >= 1 && input <= 2) {
+            if (input == 1) {
+                order.orderList.clear();
+                order.setTotalPrice(0);
+            }
+            status = MAIN_MENU;
         }
-        status = MAIN_MENU;
     }
 
     // 주문현황 관련 메서드
     public void handleStatus() {
-        // int rotation = 3;
-
-        //store.waitingList.forEach(complete -> store.completedList.add(complete));\
-        /* for (int num = 0; num < rotation; num++) {
-            recentlyCompletedOrders.add(
-                    Store.completedList.get(recentlyCompletedOrders.size() - num));
-        } */
         status = MAIN_MENU;
     }
 }
