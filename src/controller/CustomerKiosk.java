@@ -30,6 +30,7 @@ public class CustomerKiosk extends Kiosk {
     private int waitingNumber = 0;
     private String request;
     public static List<Order> recentlyCompletedOrders = new ArrayList<>(); // 최근 주문 3개
+    private static double totalPrice = 0; // 장바구니에 담긴 상품들의 totalPrice
 
     public void customerKioskStart() throws Exception {
         status = MAIN_MENU;
@@ -46,11 +47,11 @@ public class CustomerKiosk extends Kiosk {
                     handleProductMenu(selectedMenu);
                     break;
                 case PRODUCT_ADD:
-                    screen.purchaseScreen(selectedProduct); // 매개변수: Product order
+                    screen.purchaseScreen(selectedProduct);
                     handleCart(selectedProduct);
                     break;
                 case CART:
-                    screen.orderScreen(order);
+                    screen.orderScreen(order.orderList, totalPrice);
                     handleProductAdd();
                     break;
                 case ORDER_CANCEL:
@@ -59,6 +60,13 @@ public class CustomerKiosk extends Kiosk {
                     break;
                 case ORDER_COMPLETE:
                     handleComplete();
+/*
+                    screen.orderSuccessScreen(store.waitingList.get(store.waitingList.size()-1)); // 가장 최근 추가된 order를 매개변수로
+                    break;
+                case ORDER_STATUS:
+                    handleStatus();
+                    screen.orderStatus(recentlyCompletedOrders, store.waitingList);
+*/
                     screen.orderSuccessScreen(waitingNumber);
                     break;
                 case ORDER_STATUS:
@@ -115,6 +123,12 @@ public class CustomerKiosk extends Kiosk {
     public void handleCart(Product currentPickProduct) {
         int input = InputDevice.receiveInt(1, 2);
 
+/*
+        if(input == 1) { // 장바구니에 추가
+            totalPrice = order.addTotalPrice(currentPickProduct);
+
+            if(order.alreadyExistInOrderList(currentPickProduct)) { // 이미 존재하면
+*/
         if (input == 1) { // 장바구니에 추가
             if (order.alreadyExistInOrderList(currentPickProduct)) { // 이미 존재하면
                 order.addCount(currentPickProduct); // 수량 증가
@@ -149,7 +163,14 @@ public class CustomerKiosk extends Kiosk {
 
     // 주문 완료 관련 메서드
     public void handleComplete() {
-        // order.orderList.forEach(orderItem -> order.addTotalPrice(orderItem)); // totalPrice
+/*
+        order.orderList.forEach(orderItem -> order.addTotalPrice(orderItem)); // totalPriceW
+        order.saveOrder(order.orderList, waitingNumber, request); // 값 변경 후, waitingList에 추가.
+
+        waitingNumber++;
+        totalPrice = 0;
+        order.orderList.clear();
+*/
         waitingNumber++;
         order.saveOrder(waitingNumber, request); // 값 변경 후, waitingList에 추가.
         order = new Order();
@@ -158,6 +179,11 @@ public class CustomerKiosk extends Kiosk {
 
     // 주문 취소 관련 메서드
     public void handleOrderCancel() {
+/*
+        int input = inputDevice.receiveInt(2);
+        if(input == 1) {
+            totalPrice = 0;
+*/
         int input = InputDevice.receiveInt(1, 2);
         if (input == 1) {
             order.orderList.clear();

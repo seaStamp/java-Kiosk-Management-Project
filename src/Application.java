@@ -8,11 +8,11 @@ import java.util.List;
 
 public class Application {
     public static void main(String[] args) throws Exception {
-        CustomerKiosk cKiosk = new CustomerKiosk();
+        CustomerKiosk ck = new CustomerKiosk();
         Store store = new Store();
         store.init();
         while(true){
-            cKiosk.customerKioskStart();
+            ck.customerKioskStart();
             ManagerKiosk.managerKioskStart();
         }
     }
