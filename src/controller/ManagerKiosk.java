@@ -16,6 +16,7 @@ public class ManagerKiosk {
 
     public static void managerKioskStart() {
         status = ManagerKioskStatus.MAIN_MENU;
+        screen.displayLine();
         while (true) {
             switch (status) {
                 case HOME -> {
@@ -133,6 +134,7 @@ public class ManagerKiosk {
         do {
             newProduct.setPrice(InputDevice.receiveDouble());
         } while (newProduct.getPrice() == -1);
+        newProduct.increaseCount();
         return newProduct;
     }
 

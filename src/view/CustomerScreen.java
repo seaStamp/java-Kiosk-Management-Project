@@ -77,12 +77,8 @@ public class CustomerScreen {
         System.out.println("아래 상품메뉴판을 보시고 상품을 골라 입력해주세요." + "\n");
 
         for (int i = 0; i < addList.size(); i++) {
-            System.out.println(i + 1 + ". " +
-                    addList.get(i).getName() + " | W " +
-                    addList.get(i).getPrice() + " | " +
-                    addList.get(i).getInfo());
+            System.out.printf("%d. %s | W %.1f | %s \n",i + 1,addList.get(i).getName(), addList.get(i).getPrice(), addList.get(i).getInfo());
         }
-        // 선택한 메뉴 담기
         displayLine();
 
     }
@@ -90,10 +86,9 @@ public class CustomerScreen {
     // 구매 화면
     public void purchaseScreen(Product product) {
         // 장바구니에 담긴 메뉴 출력
-        System.out.println(product.getName() + " | W " + product.getPrice() + " | "  + product.getInfo() + "\n");
+        System.out.printf("%s | W %.1f | %s\n", product.getName(), product.getPrice(), product.getInfo());
         System.out.println("위 메뉴를 장바구니에 추가하시겠습니까?");
         System.out.println("1. 확인        2. 취소");
-
         displayLine();
     }
 
@@ -103,13 +98,13 @@ public class CustomerScreen {
         System.out.println();
 
         System.out.println("[ Orders ] ");
-        // 장바구니에 담긴 메뉴 출력 (orderMenu.add() 된 것을 get()으로 가져오기
+        // 장바구니에 담긴 메뉴 출력
         for (int i = 0; i < order.orderList.size(); i++) {
             System.out.printf("%s | W %.1f | %d개 | %s\n", order.orderList.get(i).getName(), order.orderList.get(i).getPrice(), order.orderList.get(i).getCount(),order.orderList.get(i).getInfo());
         }
         System.out.println();
         System.out.println("[ Total ]");
-        System.out.printf("%.1f\n", order.getTotalPrice());
+        System.out.printf("W %.1f\n", order.getTotalPrice());
         System.out.println();
         System.out.println("1. 주문       2. 메뉴판");
         displayLine();
