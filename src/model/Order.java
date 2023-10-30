@@ -9,7 +9,6 @@ public class Order {
     private static Product product;
     private static Store store;
     public List<Product> orderList = new ArrayList<>(); // 주문상품 목록 (장바구니)
-
     private int waitingNumber; // 대기번호 id
     private String request; // 요청사항
     private String orderDate; // 주문일시
@@ -19,15 +18,17 @@ public class Order {
 
     public Order() {}
 
-    public Order(List<Product> orderList, int waitingNumber) {
+    public Order(List<Product> orderList, int waitingNumber, double totalPrice) {
         this.orderList = orderList;
         this.waitingNumber = waitingNumber;
+        this.totalPrice = totalPrice;
         request = "";
         orderDate = "";
         completeDate = "";
         orderState = false;
     }
-    
+
+
     // 이미 order list에 존재하는지 확인하는 메서드
     public boolean alreadyExistInOrderList(Product product) {
         boolean exist = false;
@@ -39,8 +40,8 @@ public class Order {
     }
 
     // 목록의 수량을 반환하는 메서드
-    public int addCount(Product product) {
-        return product.getCount()+1;
+    public void addCount(Product product) {
+        product.increaseCount();
     }
 
     // 총 가격을 계산하여 반환하는 메서드
@@ -48,13 +49,6 @@ public class Order {
         totalPrice += product.getPrice();
         return totalPrice;
     }
-
-    /*public void changeCompleteOrderState(Order waiting) { //주문상태 변경 (대기 -> 완료)
-        if(!waiting.getOrderState()) {
-            waiting.setOrderState(true); // waiting.setOrderState(!waiting.getOrderState());
-        }
-        store.completeOrder(waiting);
-    }*/
 
     // 주문했을 때 입력받은 값을 저장하는 메서드 (대기자번호id, 요청사항, 주문일시)
     public void saveOrder(int waitingNumber, String request) {
@@ -65,8 +59,7 @@ public class Order {
         this.setWaitingNumber(waitingNumber);
         Store.waitingList.add(this);
         /*
-        Order inCartOrder = new Order(orderList, waitingNumber);
-
+        Order inCartOrder = new Order(orderList, waitingNumber, totalPrice);
         inCartOrder.setRequest(request);
         inCartOrder.setOrderDate(currentDate);
         inCartOrder.setTotalPrice(totalPrice);
