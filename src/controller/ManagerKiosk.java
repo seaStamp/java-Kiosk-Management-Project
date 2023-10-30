@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class ManagerKiosk {
-    // status 상수값
     public static ManagerKioskStatus status;
     private static final ManagerScreen screen = new ManagerScreen();
     private static final Store store = new Store();
@@ -49,21 +48,11 @@ public class ManagerKiosk {
     private static void handleMainMenu() {
         status = ManagerKioskStatus.MAIN_MENU;
         switch (InputDevice.receiveInt(0, 4)) {
-            case 0 -> {
-                status = ManagerKioskStatus.HOME;
-            }
-            case 1 -> {
-                status = ManagerKioskStatus.WAITNG_ORDER_LIST;
-            }
-            case 2 -> {
-                status = ManagerKioskStatus.COMPLETED_ORDER_LIST;
-            }
-            case 3 -> {
-                status = ManagerKioskStatus.CREAT_PRODUCT;
-            }
-            case 4 -> {
-                status = ManagerKioskStatus.DELETE_PRODUCT;
-            }
+            case 0 -> status = ManagerKioskStatus.HOME;
+            case 1 -> status = ManagerKioskStatus.WAITNG_ORDER_LIST;
+            case 2 -> status = ManagerKioskStatus.COMPLETED_ORDER_LIST;
+            case 3 -> status = ManagerKioskStatus.CREAT_PRODUCT;
+            case 4 -> status = ManagerKioskStatus.DELETE_PRODUCT;
         }
     }
 
@@ -100,7 +89,7 @@ public class ManagerKiosk {
         int selectedNumber = InputDevice.receiveInt(1, menuList.size() + 1);
         int answer;
         Menu menu = new Menu();
-        Product newProduct = new Product();
+        Product newProduct;
 
         if (selectedNumber != -1) {
             {
@@ -150,7 +139,7 @@ public class ManagerKiosk {
 
     private static void handleDeleteProduct(List<Menu> menuList, HashMap<String, List<Product>> menus) {
         int selectedNumber = InputDevice.receiveInt(1, menus.size());
-        int answer = -1;
+        int answer;
         Menu menu;
         List<Product> products;
         if (selectedNumber != -1) {// 에러가 나지 않는다면
@@ -171,7 +160,7 @@ public class ManagerKiosk {
     }
 
     private static int receiveTwoAnswer() {
-        int answer = -1;
+        int answer ;
         do {
             answer = InputDevice.receiveInt(1, 2);
         } while (answer == -1);
