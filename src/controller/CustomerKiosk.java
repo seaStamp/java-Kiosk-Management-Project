@@ -49,7 +49,7 @@ public class CustomerKiosk extends Kiosk {
                     handleCart(selectedProduct);
                     break;
                 case CART:
-                    screen.orderScreen(order , selectedProduct);
+                    screen.orderScreen(order);
                     handleProductAdd();
                     break;
                 case ORDER_CANCEL:
@@ -93,8 +93,6 @@ public class CustomerKiosk extends Kiosk {
                 }
             }
         }
-
-
 
        /* switch (input) {
             case 0:
