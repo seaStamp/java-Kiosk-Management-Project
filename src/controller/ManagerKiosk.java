@@ -9,14 +9,13 @@ import view.ManagerScreen;
 import java.util.HashMap;
 import java.util.List;
 
-public class ManagerKiosk extends Kiosk {
-    // status 상수값
-    public static ManagerKisokStatus status;
+public class ManagerKiosk {
+    public static ManagerKioskStatus status;
     private static final ManagerScreen screen = new ManagerScreen();
     private static final Store store = new Store();
 
     public static void managerKioskStart() {
-        status = ManagerKisokStatus.MAIN_MENU;
+        status = ManagerKioskStatus.MAIN_MENU;
         while (true) {
             switch (status) {
                 case HOME -> {
@@ -47,23 +46,13 @@ public class ManagerKiosk extends Kiosk {
     }
 
     private static void handleMainMenu() {
-        status = ManagerKisokStatus.MAIN_MENU;
+        status = ManagerKioskStatus.MAIN_MENU;
         switch (InputDevice.receiveInt(0, 4)) {
-            case 0 -> {
-                status = ManagerKisokStatus.HOME;
-            }
-            case 1 -> {
-                status = ManagerKisokStatus.WAITNG_ORDER_LIST;
-            }
-            case 2 -> {
-                status = ManagerKisokStatus.COMPLETED_ORDER_LIST;
-            }
-            case 3 -> {
-                status = ManagerKisokStatus.CREAT_PRODUCT;
-            }
-            case 4 -> {
-                status = ManagerKisokStatus.DELETE_PRODUCT;
-            }
+            case 0 -> status = ManagerKioskStatus.HOME;
+            case 1 -> status = ManagerKioskStatus.WAITNG_ORDER_LIST;
+            case 2 -> status = ManagerKioskStatus.COMPLETED_ORDER_LIST;
+            case 3 -> status = ManagerKioskStatus.CREAT_PRODUCT;
+            case 4 -> status = ManagerKioskStatus.DELETE_PRODUCT;
         }
     }
 
@@ -72,11 +61,11 @@ public class ManagerKiosk extends Kiosk {
         int selectedNumber = InputDevice.receiveInt(0, Store.waitingList.size());
         int answer;
         if (selectedNumber == 0) {
-            status = ManagerKisokStatus.MAIN_MENU;
+            status = ManagerKioskStatus.MAIN_MENU;
         } else if (selectedNumber != -1) {
             screen.orderComplete(Store.waitingList.get(selectedNumber - 1));
             answer = receiveTwoAnswer();
-            status = ManagerKisokStatus.MAIN_MENU;
+            status = ManagerKioskStatus.MAIN_MENU;
             if (answer == 1) {
                 store.changeCompleteOrderState(Store.waitingList.get(selectedNumber - 1));
             }
@@ -88,9 +77,9 @@ public class ManagerKiosk extends Kiosk {
     private static void handleCompletedOrderListMenu() { // 매개변수로 받을 것 : List<Order>
         int selectedNumber = InputDevice.receiveInt(0, Store.completedList.size());
         if (selectedNumber == 0) {
-            status = ManagerKisokStatus.MAIN_MENU;
+            status = ManagerKioskStatus.MAIN_MENU;
         } else if (selectedNumber != -1) {
-            status = ManagerKisokStatus.MAIN_MENU;
+            status = ManagerKioskStatus.MAIN_MENU;
             screen.orderCompleteNumber(Store.completedList.get(selectedNumber - 1));
         }
     }
@@ -100,7 +89,7 @@ public class ManagerKiosk extends Kiosk {
         int selectedNumber = InputDevice.receiveInt(1, menuList.size() + 1);
         int answer;
         Menu menu = new Menu();
-        Product newProduct = new Product();
+        Product newProduct;
 
         if (selectedNumber != -1) {
             {
@@ -112,7 +101,7 @@ public class ManagerKiosk extends Kiosk {
                 }
                 newProduct = createNewProduct();
                 screen.productCreate(menu, newProduct);
-                status = ManagerKisokStatus.MAIN_MENU;
+                status = ManagerKioskStatus.MAIN_MENU;
                 answer = receiveTwoAnswer();
                 if (answer == 1) {
                     if (selectedNumber == Store.menuList.size() + 1) {
@@ -150,7 +139,7 @@ public class ManagerKiosk extends Kiosk {
 
     private static void handleDeleteProduct(List<Menu> menuList, HashMap<String, List<Product>> menus) {
         int selectedNumber = InputDevice.receiveInt(1, menus.size());
-        int answer = -1;
+        int answer;
         Menu menu;
         List<Product> products;
         if (selectedNumber != -1) {// 에러가 나지 않는다면
@@ -166,12 +155,12 @@ public class ManagerKiosk extends Kiosk {
                 screen.deleteComplete(products.get(selectedNumber - 1).getName());
                 store.deleteProduct(menu, products.get(selectedNumber - 1));
             }
-            status = ManagerKisokStatus.MAIN_MENU;
+            status = ManagerKioskStatus.MAIN_MENU;
         }
     }
 
     private static int receiveTwoAnswer() {
-        int answer = -1;
+        int answer ;
         do {
             answer = InputDevice.receiveInt(1, 2);
         } while (answer == -1);
