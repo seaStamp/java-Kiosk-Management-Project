@@ -14,8 +14,6 @@ public class Store {
     //public static ArrayList<Product> products = new ArrayList<>(); // 상품 리스트
     public static List<Order> waitingList = new ArrayList<>(); // 대기중인 주문리스트
     public static List<Order> completedList = new ArrayList<>(); // 완료된 주문리스트
-
-    public Order order = new Order();
     public ShakeShackAllMenu shackShackAllMenu = new ShakeShackAllMenu();
 
     public void init() {
@@ -26,12 +24,6 @@ public class Store {
         menus.put(MainMenu.CONCRETES.getName(), shackShackAllMenu.concretes);
     }
 
-//     대기 주문을 추가하는 메서드
-//        public void addWaitingOrder(List<Product> orderList, int waitingNumber) {
-//        Order newOrder = new Order(orderList, waitingNumber);
-//        waitingList.add(newOrder);
-//    }
-
     // 주문을 완료하는 메서드
     public void changeCompleteOrderState(Order waiting) { //주문상태 변경 (대기 -> 완료)
         if(!waiting.getOrderState()) {
@@ -39,19 +31,6 @@ public class Store {
         }
         waitingList.remove(waiting);
         completedList.add(waiting);
-    }
-
-    // 입력 받은 메뉴가 이미 존재하는건지 확인하는 메서드
-    public boolean existOrNotMenu(String menuName) {
-        boolean exist = false; // 메뉴 존재하면 true, 존재하지 않으면 false
-
-        for(Menu menu : menuList) {
-            if(menu.getName().equals(menuName)) {
-                exist = true;
-                break;
-            }
-        }
-        return exist;
     }
 
     // 메뉴를 생성하는 메서드
@@ -65,19 +44,11 @@ public class Store {
 
     // 상품을 생성하는 메서드
     public void createProduct(String menuName, Product newProduct) {
-//        List<Product> menuItems = menus.get(menuName);
-//        menuItems.add(newProduct);
         menus.get(menuName).add(newProduct);
     }
 
     // 상품을 삭제하는 메서드 ( 매개변수 - 삭제할 상품 선택시 선택된 상품 객체 (Product) )
     public void deleteProduct(Menu menu, Product item) {
-        /*for(List<Product> menuInProductList  : menus.values()) { // menus의 모든 값을 가져와
-            if(menuInProductList.contains(item)) {
-                menuInProductList.remove(item);
-            }
-            break;
-        }*/
         menus.get(menu.getName()).remove(item);
         if(menus.get(menu.getName()).isEmpty()){
             menus.remove(menu.getName());

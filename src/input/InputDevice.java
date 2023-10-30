@@ -6,15 +6,14 @@ import java.util.Scanner;
 
 public class InputDevice {
     private static Scanner scanner;
-    private static Parser parser;
 
     // 정수형 입력을 받는 메서드 (n은 1~n까지의 범위), -1을 반환하면 입력에 실패한것
     public static int receiveInt(int startInclusive, int endInclusive) {
         scanner = new Scanner(System.in);
-        parser = new Parser();
+        Parser parser = new Parser();
         int answer = -1;
         try {
-            answer = parser.parseInt(scanner.nextLine(), startInclusive,endInclusive);
+            answer = parser.parseInt(scanner.nextLine(), startInclusive, endInclusive);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -25,9 +24,9 @@ public class InputDevice {
     public static double receiveDouble() {
         Scanner scanner = new Scanner(System.in);
         double answer = -1;
-        try{
+        try {
             answer = scanner.nextDouble();
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("<!> 잘못된 입력입니다! 실수 값을 입력해주세요!");
         }
         return answer;
@@ -36,8 +35,13 @@ public class InputDevice {
     // 오버로딩 (글자수 제한이 있는 것과 없는것)
     public static String receiveString() {
         scanner = new Scanner(System.in);
-        String answer = null;
+        String answer;
+
         answer = scanner.nextLine();
+        while (answer.isEmpty()) {
+            System.out.println("입력된 값이 없습니다. 다시 입력 부탁드립니다.");
+            answer = scanner.nextLine();
+        }
         return answer;
     }
 
@@ -48,7 +52,6 @@ public class InputDevice {
         scanner = new Scanner(System.in);
         String answer = scanner.nextLine();
         if (answer.length() > endInclusive) {
-            answer = "";
             throw new OutOfRangeException(endInclusive);
         }
         if (answer.isEmpty()) {

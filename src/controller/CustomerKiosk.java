@@ -4,58 +4,55 @@ import input.InputDevice;
 import model.Order;
 import model.Product;
 import model.Store;
-import product.ShakeShackAllMenu;
 import view.CustomerScreen;
 
 import java.util.List;
 
 public class CustomerKiosk {
     public CustomerKioskStatus status;
-    private static CustomerScreen screen = new CustomerScreen();
+    private static final CustomerScreen screen = new CustomerScreen();
     private static Order order = new Order();
-    private static Store store = new Store();
-    private static ShakeShackAllMenu shakeShakeAllMenu = new ShakeShackAllMenu();
-
     private static List<Product> selectedMenu;
     private static Product selectedProduct;
 
     private int waitingNumber = 0;
     private String request;
 
-    public void customerKioskStart() throws Exception {
+    public void customerKioskStart() {
         status = CustomerKioskStatus.MAIN_MENU;
         while (true) {
             switch (status) {
-                case HOME:
+                case HOME -> {
                     return;
-                case MAIN_MENU:
+                }
+                case MAIN_MENU -> {
                     screen.displayMainMenu();
                     handleMainMenu();
-                    break;
-                case PRODUCT_MENU:
+                }
+                case PRODUCT_MENU -> {
                     screen.displayProductMenu(selectedMenu);
                     handleProductMenu(selectedMenu);
-                    break;
-                case PRODUCT_ADD:
+                }
+                case PRODUCT_ADD -> {
                     screen.purchaseScreen(selectedProduct);
                     handleCart(selectedProduct);
-                    break;
-                case CART:
+                }
+                case CART -> {
                     screen.orderScreen(order);
                     handleProductAdd();
-                    break;
-                case ORDER_CANCEL:
+                }
+                case ORDER_CANCEL -> {
                     screen.orderCancelScreen();
                     handleOrderCancel();
-                    break;
-                case ORDER_COMPLETE:
+                }
+                case ORDER_COMPLETE -> {
                     handleComplete();
                     screen.orderSuccessScreen(waitingNumber);
-                    break;
-                case ORDER_STATUS:
+                }
+                case ORDER_STATUS -> {
                     handleStatus();
                     screen.orderStatus(Store.completedList, Store.waitingList);    //최근 주문 3개
-                    break;
+                }
             }
         }
     }
@@ -64,60 +61,21 @@ public class CustomerKiosk {
         int nRange = Store.menuList.size() + 3;
         int input = InputDevice.receiveInt(0, nRange);
 
-        if(input >= 0 && input <= nRange) {
-            if(input == 0) {
+        if (input >= 0 && input <= nRange) {
+            if (input == 0) {
                 status = CustomerKioskStatus.HOME;
-            } else if(input <= store.menus.size()) {
+            } else if (input <= Store.menus.size()) {
                 status = CustomerKioskStatus.PRODUCT_MENU;
-                String menuName = store.menuList.get(input-1).getName();
-                selectedMenu = store.menus.get(menuName);
-            } else if(input <= store.menus.size() + 3) {
-                switch(input - store.menus.size()) {
-                    case 1:
-                        cartEmptyCheck();
-                        break;
-                    case 2:
-                        status = CustomerKioskStatus.ORDER_CANCEL;
-                        break;
-                    case 3:
-                        status = CustomerKioskStatus.ORDER_STATUS;
-                        break;
+                String menuName = Store.menuList.get(input - 1).getName();
+                selectedMenu = Store.menus.get(menuName);
+            } else if (input <= Store.menus.size() + 3) {
+                switch (input - Store.menus.size()) {
+                    case 1 -> cartEmptyCheck();
+                    case 2 -> status = CustomerKioskStatus.ORDER_CANCEL;
+                    case 3 -> status = CustomerKioskStatus.ORDER_STATUS;
                 }
             }
         }
-
-
-
-       /* switch (input) {
-            case 0:
-                status = HOME;
-                break;
-            case 1:
-                status = PRODUCT_MENU;
-                selectedMenu = shakeShakeAllMenu.burger;
-                break;
-            case 2:
-                status = PRODUCT_MENU;
-                selectedMenu = shakeShakeAllMenu.custard;
-                break;
-            case 3:
-                status = PRODUCT_MENU;
-                selectedMenu = shakeShakeAllMenu.drink;
-                break;
-            case 4:
-                status = PRODUCT_MENU;
-                selectedMenu = shakeShakeAllMenu.concretes;
-                break;
-            case 5:
-                cartEmptyCheck();
-                break;
-            case 6:
-                status = ORDER_CANCEL;
-                break;
-            case 7:
-                status = ORDER_STATUS;
-                break;
-        }*/
     }
 
     // 상품 메뉴 화면 관련 메서드
@@ -148,7 +106,7 @@ public class CustomerKiosk {
     }
 
     // 주문화면 관련 메서드
-    public void handleProductAdd() throws Exception {
+    public void handleProductAdd() {
         int input = InputDevice.receiveInt(1, 2);
         request = "";
 
@@ -160,7 +118,7 @@ public class CustomerKiosk {
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-            } while (request == null || request.equals(""));
+            } while (request == null || request.isEmpty());
             status = CustomerKioskStatus.ORDER_COMPLETE;
         }
         if (input == 2) {
@@ -195,9 +153,9 @@ public class CustomerKiosk {
 
     // 장바구니가 비어있는지 확인하는 메서드
     public void cartEmptyCheck() {
-        if(order.orderList.size() > 0)
-            status = CustomerKioskStatus.CART;
-        else
+        if (order.orderList.isEmpty())
             System.out.println("장바구니가 비어있습니다. 메뉴를 고른 후 주문을 진행해주세요.\n");
+        else
+            status = CustomerKioskStatus.CART;
     }
 }

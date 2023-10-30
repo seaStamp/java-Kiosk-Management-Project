@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
-    private static Product product;
-    private static Store store;
     public List<Product> orderList = new ArrayList<>(); // 주문상품 목록 (장바구니)
     private int waitingNumber; // 대기번호 id
     private String request; // 요청사항
@@ -16,26 +14,15 @@ public class Order {
     private boolean orderState; // 주문상태 (대기 - false, 완료 - true)
     private double totalPrice; // 총 가격
 
-    public Order() {}
-
-    public Order(List<Product> orderList, int waitingNumber, double totalPrice) {
-        this.orderList = orderList;
-        this.waitingNumber = waitingNumber;
-        this.totalPrice = totalPrice;
-        request = "";
-        orderDate = "";
-        completeDate = "";
-        orderState = false;
+    public Order() {
     }
-
 
     // 이미 order list에 존재하는지 확인하는 메서드
     public boolean alreadyExistInOrderList(Product product) {
         boolean exist = false;
-
-        if(orderList.contains(product))
+        if (orderList.contains(product)) {
             exist = true;
-
+        }
         return exist;
     }
 
@@ -44,10 +31,9 @@ public class Order {
         product.increaseCount();
     }
 
-    // 총 가격을 계산하여 반환하는 메서드
-    public double addTotalPrice(Product product) {
+    // 총 가격을 더해주는 메서드
+    public void addTotalPrice(Product product) {
         totalPrice += product.getPrice();
-        return totalPrice;
     }
 
     // 주문했을 때 입력받은 값을 저장하는 메서드 (대기자번호id, 요청사항, 주문일시)
@@ -58,26 +44,17 @@ public class Order {
         this.setOrderDate(currentDate);
         this.setWaitingNumber(waitingNumber);
         Store.waitingList.add(this);
-        /*
-        Order inCartOrder = new Order(orderList, waitingNumber, totalPrice);
-        inCartOrder.setRequest(request);
-        inCartOrder.setOrderDate(currentDate);
-        inCartOrder.setTotalPrice(totalPrice);
-
-        store.waitingList.add(inCartOrder);
-         */
     }
 
     // 주문 상태를 반환하는 메서드 (완료일시가 null이 아니면 True)
     public boolean getOrderState() {
-        if(completeDate == null) { // 완료일시가 비어있지 않으면 완료상태
+        if (completeDate == null) { // 완료일시가 비어있지 않으면 완료상태
             completeDate = LocalDateTime.now().atZone(ZoneId.of("Asia/Seoul")).toString();
             orderState = true;
         }
         return orderState;
     }
 
-    public List<Product> getOrderList() { return orderList; }
     public String getOrderDate() {
         return orderDate;
     }
