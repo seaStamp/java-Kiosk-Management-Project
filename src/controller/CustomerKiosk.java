@@ -20,6 +20,7 @@ public class CustomerKiosk {
 
     public void customerKioskStart() {
         status = CustomerKioskStatus.MAIN_MENU;
+        screen.displayLine();
         while (true) {
             switch (status) {
                 case HOME -> {

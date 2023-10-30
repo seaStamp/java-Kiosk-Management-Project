@@ -16,7 +16,6 @@ public class ManagerScreen {
     public List<String> managerMainMenu = new ArrayList<>(Arrays.asList("메인 메뉴", "대기주문 목록", "완료주문 목록", "상품 생성", "상품 삭제"));
 
     public void welcomeMsg() {
-        displayLine();
         System.out.println("\"SHAKESHACK BURGER 관리 메뉴\"");
         System.out.println("아래 목록에서 원하는 명령을 골라 입력해주세요");
     }
@@ -34,7 +33,7 @@ public class ManagerScreen {
         System.out.println("0. 돌아가기");
         System.out.println("[ 대기주문 목록 ]");
         for (int y = 0; y < waitingList.size(); y++) {
-            System.out.println((y + 1) + ". " + waitingList.get(y).getWaitingNumber() + " | " + waitingList.get(y).getTotalPrice() + " | " + waitingList.get(y).getOrderDate());
+            System.out.printf("%d. %d | %.1f | %s\n", (y + 1), waitingList.get(y).getWaitingNumber(), waitingList.get(y).getTotalPrice(), waitingList.get(y).getOrderDate());
         }
         displayLine();
     }
@@ -45,12 +44,10 @@ public class ManagerScreen {
         System.out.println("No. " + order.getWaitingNumber() + "\n주문 일시 : " + order.getOrderDate());
         System.out.println("\n[ Order ]");
         for (Product product : order.orderList) {
-            System.out.println(product.getName() + " | "+product.getCount()+" | "
-                    + product.getPrice() + " | "
-                    + product.getInfo());
+            System.out.printf("%s | %d개 | W %.1f | %s\n", product.getName(), product.getCount(), product.getPrice(), product.getInfo());
         }
         System.out.println("\n[ Total ]");
-        System.out.printf("%.1f\n",order.getTotalPrice());
+        System.out.printf("W %.1f\n", order.getTotalPrice());
         System.out.println("\n[ 요청 사항 ]");
         System.out.println(order.getRequest());
         System.out.println("\n1. 완료        2. 돌아가기");
@@ -62,7 +59,7 @@ public class ManagerScreen {
         System.out.println("0. 돌아가기\n");
         System.out.println("[ 완료주문 목록 ]");
         for (int y = 0; y < completeList.size(); y++) {
-            System.out.println((y + 1) + ". " + completeList.get(y).getWaitingNumber() + " | " + completeList.get(y).getTotalPrice() + " | " + completeList.get(y).getOrderDate());
+            System.out.printf("%d. %d | %.1f | %s\n", (y + 1), completeList.get(y).getWaitingNumber(), completeList.get(y).getTotalPrice(), completeList.get(y).getOrderDate());
         }
         displayLine();
     }
@@ -72,12 +69,10 @@ public class ManagerScreen {
         System.out.println("No. " + order.getWaitingNumber() + "\n주문 일시 : " + order.getOrderDate() + "\n완료 일시 : " + order.getCompleteDate());
         System.out.println("\n[ Order ]");
         for (Product product : order.orderList) {
-            System.out.println(product.getName() + " | "+product.getCount()+" | "
-                    + product.getPrice() + " | "
-                    + product.getInfo());
+            System.out.printf("%s | %d개 | W %.1f | %s\n", product.getName(), product.getCount(), product.getPrice(), product.getInfo());
         }
         System.out.println("\n[ Total ]");
-        System.out.printf("%.1f\n",order.getTotalPrice());
+        System.out.printf("W %.1f\n", order.getTotalPrice());
         System.out.println("\n[ 요청 사항 ]");
         System.out.println(order.getRequest());
         System.out.println("3초후 메뉴판으로 돌아갑니다." + "\n");
@@ -105,7 +100,7 @@ public class ManagerScreen {
     public void productCreate(Menu menu, Product product) {
         //상품 생성 멘트
         displayLine();
-        System.out.printf("%s | %s \n%s | %s | %.1f\n위 상품을 추가하시겠습니까?\n", menu.getName(), menu.getInfo(), product.getName(), product.getInfo(), product.getPrice());
+        System.out.printf("%s | %s \n%s | %s | W %.1f\n위 상품을 추가하시겠습니까?\n", menu.getName(), menu.getInfo(), product.getName(), product.getInfo(), product.getPrice());
         System.out.println("1. 확인        2. 취소");
         displayLine();
     }
@@ -113,7 +108,6 @@ public class ManagerScreen {
     public void productCreateComplete(String newProductName) { //상품 생성 완료 멘트
         displayLine();
         System.out.println(newProductName + " 상품이 추가되었습니다.");
-        displayLine();
     }
 
     public void productDeleteMenu(List<Menu> menu) {//삭제할 상품목록
@@ -151,7 +145,6 @@ public class ManagerScreen {
     public void deleteComplete(String deleteProductName) {//삭제 완료
         displayLine();
         System.out.println(deleteProductName + " 상품이 삭제 되었습니다.");
-        displayLine();
     }
 
 }
