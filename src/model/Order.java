@@ -27,7 +27,8 @@ public class Order {
         completeDate = "";
         orderState = false;
     }
-    
+
+
     // 이미 order list에 존재하는지 확인하는 메서드
     public boolean alreadyExistInOrderList(Product product) {
         boolean exist = false;
