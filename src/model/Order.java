@@ -39,8 +39,8 @@ public class Order {
     }
 
     // 목록의 수량을 반환하는 메서드
-    public int addCount(Product product) {
-        return product.getCount()+1;
+    public void addCount(Product product) {
+        product.increaseCount();
     }
 
     // 총 가격을 계산하여 반환하는 메서드
