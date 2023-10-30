@@ -25,6 +25,10 @@ public class Product extends Menu {
         return count;
     }
 
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
     public void increaseCount() {
         count++;
     }

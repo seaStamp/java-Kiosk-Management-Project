@@ -39,7 +39,7 @@ public class Order {
         return exist;
     }
 
-    // 목록의 수량을 반환하는 메서드
+    // 목록의 수량을 증가시키는 메서드
     public void addCount(Product product) {
         product.increaseCount();
     }
