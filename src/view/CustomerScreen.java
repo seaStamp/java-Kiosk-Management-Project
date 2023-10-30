@@ -45,10 +45,10 @@ public class CustomerScreen {
         System.out.println(++i + ". Order            | 장바구니를 확인 후 주문합니다.");
         System.out.println(++i + ". Cancel           | 진행중인 주문을 취소합니다.");
         System.out.println(++i + ". Status of Order  | 주문 현황을 확인합니다.");
+
         displayLine();
         // Order & Cancel 불러오기
     }
-
 
     // 주문 현황
     public void orderStatus(List<Order> completedList, List<Order> waitingList) {
@@ -110,14 +110,15 @@ public class CustomerScreen {
     }
 
     // 주문 화면
-    public void orderScreen(Order order, Product product) {
+    public void orderScreen(Order order) {
         System.out.println("아래와 같이 주문 하시겠습니까?");
         System.out.println();
 
         System.out.println("[ Orders ] ");
         // 장바구니에 담긴 메뉴 출력 (orderMenu.add() 된 것을 get()으로 가져오기
         for (int i = 0; i < order.orderList.size(); i++) {
-            System.out.println(order.orderList.get(i).getName() + " | W " + order.orderList.get(i).getPrice() + " | " + product.getCount() + "개 | "  + order.orderList.get(i).getInfo());
+            System.out.printf("%s | W %.1f | %d개 | %s\n", order.orderList.get(i).getName(), order.orderList.get(i).getPrice(), order.orderList.get(i).getCount(),order.orderList.get(i).getInfo());
+
         }
         System.out.println();
         System.out.println("[ Total ]");

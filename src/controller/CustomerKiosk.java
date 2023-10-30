@@ -9,16 +9,8 @@ import view.CustomerScreen;
 
 import java.util.List;
 
-public class CustomerKiosk extends Kiosk {
-    private final static int HOME = 0;
-    private final static int MAIN_MENU = 1;
-    private final static int PRODUCT_MENU = 2;
-    private final static int PRODUCT_ADD = 3;
-    private final static int CART = 4;
-    private final static int ORDER_CANCEL = 5;
-    private final static int ORDER_COMPLETE = 6;
-    private final static int ORDER_STATUS = 7;
-
+public class CustomerKiosk {
+    public CustomerKioskStatus status;
     private static CustomerScreen screen = new CustomerScreen();
     private static Order order = new Order();
     private static Store store = new Store();
@@ -31,7 +23,7 @@ public class CustomerKiosk extends Kiosk {
     private String request;
 
     public void customerKioskStart() throws Exception {
-        status = MAIN_MENU;
+        status = CustomerKioskStatus.MAIN_MENU;
         while (true) {
             switch (status) {
                 case HOME:
@@ -49,7 +41,7 @@ public class CustomerKiosk extends Kiosk {
                     handleCart(selectedProduct);
                     break;
                 case CART:
-                    screen.orderScreen(order , selectedProduct);
+                    screen.orderScreen(order);
                     handleProductAdd();
                     break;
                 case ORDER_CANCEL:
@@ -74,9 +66,9 @@ public class CustomerKiosk extends Kiosk {
 
         if(input >= 0 && input <= nRange) {
             if(input == 0) {
-                status = HOME;
+                status = CustomerKioskStatus.HOME;
             } else if(input <= store.menus.size()) {
-                status = PRODUCT_MENU;
+                status = CustomerKioskStatus.PRODUCT_MENU;
                 String menuName = store.menuList.get(input-1).getName();
                 selectedMenu = store.menus.get(menuName);
             } else if(input <= store.menus.size() + 3) {
@@ -85,16 +77,14 @@ public class CustomerKiosk extends Kiosk {
                         cartEmptyCheck();
                         break;
                     case 2:
-                        status = ORDER_CANCEL;
+                        status = CustomerKioskStatus.ORDER_CANCEL;
                         break;
                     case 3:
-                        status = ORDER_STATUS;
+                        status = CustomerKioskStatus.ORDER_STATUS;
                         break;
                 }
             }
         }
-
-
 
        /* switch (input) {
             case 0:
@@ -133,7 +123,7 @@ public class CustomerKiosk extends Kiosk {
         int input = InputDevice.receiveInt(1, selectedMenu.size());
         if (input >= 1 && input <= selectedMenu.size()) {
             selectedProduct = selectedMenu.get(input - 1); // 선택된 상품
-            status = PRODUCT_ADD;
+            status = CustomerKioskStatus.PRODUCT_ADD;
         }
     }
 
@@ -150,7 +140,7 @@ public class CustomerKiosk extends Kiosk {
                 }
                 order.addTotalPrice(currentPickProduct);
             }
-            status = MAIN_MENU;
+            status = CustomerKioskStatus.MAIN_MENU;
         }
 
     }
@@ -169,10 +159,10 @@ public class CustomerKiosk extends Kiosk {
                     System.out.println(e.getMessage());
                 }
             } while (request == null || request.equals(""));
-            status = ORDER_COMPLETE;
+            status = CustomerKioskStatus.ORDER_COMPLETE;
         }
         if (input == 2) {
-            status = MAIN_MENU;
+            status = CustomerKioskStatus.MAIN_MENU;
         }
     }
 
@@ -181,7 +171,7 @@ public class CustomerKiosk extends Kiosk {
         waitingNumber++;
         order.saveOrder(waitingNumber, request); // 값 변경 후, waitingList에 추가.
         order = new Order();
-        status = MAIN_MENU;
+        status = CustomerKioskStatus.MAIN_MENU;
     }
 
     // 주문 취소 관련 메서드
@@ -192,19 +182,19 @@ public class CustomerKiosk extends Kiosk {
                 order.orderList.clear();
                 order.setTotalPrice(0);
             }
-            status = MAIN_MENU;
+            status = CustomerKioskStatus.MAIN_MENU;
         }
     }
 
     // 주문현황 관련 메서드
     public void handleStatus() {
-        status = MAIN_MENU;
+        status = CustomerKioskStatus.MAIN_MENU;
     }
 
     // 장바구니가 비어있는지 확인하는 메서드
     public void cartEmptyCheck() {
         if(order.orderList.size() > 0)
-            status = CART;
+            status = CustomerKioskStatus.CART;
         else
             System.out.println("장바구니가 비어있습니다. 메뉴를 고른 후 주문을 진행해주세요.\n");
     }
